@@ -166,23 +166,26 @@ public class AppScene {
 	  			glut.glutSolidSphere(handElbowRadius, sphereslices, spherestacks);
 	  			setLowerArmMaterialProperty(gl);
 	  		gl.glPopMatrix();
+	  	gl.glPopMatrix();
 	  gl.glPopMatrix();
+	  
 	
 	
 	  gl.glPushMatrix();
-	  gl.glRotatef(150, 0, 1, 0);//left elbow
-	  gl.glTranslatef(0, 0, headradius+upArmHeight);
-	  glut.glutSolidSphere(elbowRadius, sphereslices, spherestacks);
-	  gl.glPushMatrix();
-	  gl.glRotatef(-90, 0, 1, 0);//right lower arms
-	  glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, sphereslices, spherestacks);
-	  	//hand elbows
+	  	gl.glRotatef(150, 0, 1, 0);//left elbow
+	  	gl.glTranslatef(0, 0, headradius+upArmHeight);
+	  	glut.glutSolidSphere(elbowRadius, sphereslices, spherestacks);
 	  	gl.glPushMatrix();
-	  	gl.glTranslatef(0, 0, lowerArmHeight);
-	  	setBlackMaterialProperty(gl);
-	  	glut.glutSolidSphere(handElbowRadius, sphereslices, spherestacks);
-	  	setLowerArmMaterialProperty(gl);
-	  gl.glPopMatrix();
+	  		gl.glRotatef(-90, 0, 1, 0);//right lower arms
+	  		glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, sphereslices, spherestacks);
+	  		//hand elbows
+	  		gl.glPushMatrix();
+	  			gl.glTranslatef(0, 0, lowerArmHeight);
+	  			setBlackMaterialProperty(gl);
+	  			glut.glutSolidSphere(handElbowRadius, sphereslices, spherestacks);
+	  			setLowerArmMaterialProperty(gl);
+	  		gl.glPopMatrix();
+	  	gl.glPopMatrix();
 	  gl.glPopMatrix();
 	
   }
