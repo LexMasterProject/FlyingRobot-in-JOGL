@@ -89,6 +89,7 @@ public class AppScene {
   private void drawRobot(GL2 gl)
   {
 	  
+	  gl.glTranslated(0, 2, 0);
 	  //draw head
 	  setHeadMaterialProperty(gl);
 	  int sphereslices = 100;
@@ -152,6 +153,7 @@ public class AppScene {
 	  float handElbowRadius=0.25f;
 	  float lowerArmRadius=0.18f;
 	  float lowerArmHeight=1f;
+	  float fingerHeight=0.6f;
 	  gl.glPushMatrix();
 	  	gl.glRotatef(-60, 0, 1, 0);//right elbow
 	  	gl.glTranslatef(0, 0, headradius+upArmHeight);
@@ -162,8 +164,34 @@ public class AppScene {
 	  		//hand elbows
 	  		gl.glPushMatrix();
 	  			gl.glTranslatef(0, 0, lowerArmHeight);
-	  			setBlackMaterialProperty(gl);
+	  			setHandElbowMaterialProperty(gl);
 	  			glut.glutSolidSphere(handElbowRadius, sphereslices, spherestacks);
+	  				//finger
+	  				gl.glPushMatrix();
+	  				setHandMaterialProperty(gl);
+	  					gl.glPushMatrix();
+	  					gl.glRotatef(-60, 1, 0, 0);
+	  					gl.glTranslatef(0, 0, fingerHeight/2);
+	  					gl.glScalef(0.1f, 0.1f, fingerHeight);
+	  					glut.glutSolidCube(1f);
+	  					gl.glPopMatrix();
+	  					
+	  					gl.glPushMatrix();
+	  					gl.glRotatef(120, 0, 0, 1);
+	  					gl.glRotatef(-60, 1, 0, 0);
+	  					gl.glTranslatef(0, 0, fingerHeight/2);
+	  					gl.glScalef(0.1f, 0.1f, fingerHeight);
+	  					glut.glutSolidCube(1f);
+	  					gl.glPopMatrix();
+	  					
+	  					gl.glPushMatrix();
+	  					gl.glRotatef(240, 0, 0, 1);
+	  					gl.glRotatef(-60, 1, 0, 0);
+	  					gl.glTranslatef(0, 0, fingerHeight/2);
+	  					gl.glScalef(0.1f, 0.1f, fingerHeight);
+	  					glut.glutSolidCube(1f);
+	  					gl.glPopMatrix();
+	  				gl.glPopMatrix();
 	  			setLowerArmMaterialProperty(gl);
 	  		gl.glPopMatrix();
 	  	gl.glPopMatrix();
@@ -181,8 +209,34 @@ public class AppScene {
 	  		//hand elbows
 	  		gl.glPushMatrix();
 	  			gl.glTranslatef(0, 0, lowerArmHeight);
-	  			setBlackMaterialProperty(gl);
+	  			setHandElbowMaterialProperty(gl);
 	  			glut.glutSolidSphere(handElbowRadius, sphereslices, spherestacks);
+  				//finger
+  				gl.glPushMatrix();
+  				setHandMaterialProperty(gl);
+  					gl.glPushMatrix();
+  					gl.glRotatef(-60, 1, 0, 0);
+  					gl.glTranslatef(0, 0, fingerHeight/2);
+  					gl.glScalef(0.1f, 0.1f, fingerHeight);
+  					glut.glutSolidCube(1f);
+  					gl.glPopMatrix();
+  					
+  					gl.glPushMatrix();
+  					gl.glRotatef(120, 0, 0, 1);
+  					gl.glRotatef(-60, 1, 0, 0);
+  					gl.glTranslatef(0, 0, fingerHeight/2);
+  					gl.glScalef(0.1f, 0.1f, fingerHeight);
+  					glut.glutSolidCube(1f);
+  					gl.glPopMatrix();
+  					
+  					gl.glPushMatrix();
+  					gl.glRotatef(240, 0, 0, 1);
+  					gl.glRotatef(-60, 1, 0, 0);
+  					gl.glTranslatef(0, 0, fingerHeight/2);
+  					gl.glScalef(0.1f, 0.1f, fingerHeight);
+  					glut.glutSolidCube(1f);
+  					gl.glPopMatrix();
+  				gl.glPopMatrix();
 	  			setLowerArmMaterialProperty(gl);
 	  		gl.glPopMatrix();
 	  	gl.glPopMatrix();
@@ -190,10 +244,24 @@ public class AppScene {
 	
   }
   	
-	private void setBlackMaterialProperty(GL2 gl)
+	private void setHandMaterialProperty(GL2 gl)
 	{
-	  float[] matAmbient = {0f, 0f, 0f, 1.0f};
-	  float[] matDiffuse = {0f, 0f, 0f, 1.0f};
+	  float[] matAmbient = {0.27f, 0.188f, 0.215f, 1.0f};
+	  float[] matDiffuse = {0.898f, 0.723f, 0.797f, 1.0f};
+	  float[] matSpecular = {0.6f, 0.6f, 0.6f, 1.0f};
+	  float[] matShininess = {100.0f};//0~128
+	  float[] matEmission = {0.0f, 0.0f, 0.0f, 1.0f};
+	  
+	  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, matAmbient, 0);
+	  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, matDiffuse, 0);
+	  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, 0);
+	  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
+	  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, 0);
+	}
+	private void setHandElbowMaterialProperty(GL2 gl)
+	{
+	  float[] matAmbient = {0.0f, 0f, 0f, 1.0f};
+	  float[] matDiffuse = {0.82f, 0.664f, 0.61f, 1.0f};
 	  float[] matSpecular = {0.6f, 0.6f, 0.6f, 1.0f};
 	  float[] matShininess = {100.0f};//0~128
 	  float[] matEmission = {0.0f, 0.0f, 0.0f, 1.0f};

@@ -161,7 +161,7 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
   /* initialisation */
   public void init (GLAutoDrawable drawable) {
     GL2 gl = drawable.getGL().getGL2();
-    gl.glClearColor(1.0f,1.0f, 1.0f, 1.0f); //black
+    gl.glClearColor(0.0f,0.0f, 0.0f, 1.0f); //black
     gl.glEnable(GL2.GL_DEPTH_TEST); // We want to use the z buffer so that overlapping objects are drawn correctly.
     gl.glEnable(GL2.GL_CULL_FACE);  // Enable the ability to discard polygons.
     gl.glCullFace(GL2.GL_BACK);     // State which polygons will be discarded, in this case those that
