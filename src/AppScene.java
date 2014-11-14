@@ -149,30 +149,58 @@ public class AppScene {
 	  //draw elbows
 	  setLowerArmMaterialProperty(gl);
 	  float elbowRadius=0.3f;
+	  float handElbowRadius=0.25f;
 	  float lowerArmRadius=0.18f;
 	  float lowerArmHeight=1f;
 	  gl.glPushMatrix();
-	  gl.glRotatef(-60, 0, 1, 0);//right elbow
-	  gl.glTranslatef(0, 0, headradius+upArmHeight);
-	  glut.glutSolidSphere(elbowRadius, sphereslices, spherestacks);
-	  gl.glPushMatrix();
-	  gl.glRotatef(90, 0, 1, 0);//right elbow
-	  glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, sphereslices, spherestacks);
+	  	gl.glRotatef(-60, 0, 1, 0);//right elbow
+	  	gl.glTranslatef(0, 0, headradius+upArmHeight);
+	  	glut.glutSolidSphere(elbowRadius, sphereslices, spherestacks);
+	  	gl.glPushMatrix();
+	  		gl.glRotatef(90, 0, 1, 0);//right lower arms
+	  		glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, sphereslices, spherestacks);
+	  		//hand elbows
+	  		gl.glPushMatrix();
+	  			gl.glTranslatef(0, 0, lowerArmHeight);
+	  			setBlackMaterialProperty(gl);
+	  			glut.glutSolidSphere(handElbowRadius, sphereslices, spherestacks);
+	  			setLowerArmMaterialProperty(gl);
+	  		gl.glPopMatrix();
 	  gl.glPopMatrix();
-	  gl.glPopMatrix();
+	
 	
 	  gl.glPushMatrix();
 	  gl.glRotatef(150, 0, 1, 0);//left elbow
 	  gl.glTranslatef(0, 0, headradius+upArmHeight);
 	  glut.glutSolidSphere(elbowRadius, sphereslices, spherestacks);
 	  gl.glPushMatrix();
-	  gl.glRotatef(-90, 0, 1, 0);//right elbow
+	  gl.glRotatef(-90, 0, 1, 0);//right lower arms
 	  glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, sphereslices, spherestacks);
+	  	//hand elbows
+	  	gl.glPushMatrix();
+	  	gl.glTranslatef(0, 0, lowerArmHeight);
+	  	setBlackMaterialProperty(gl);
+	  	glut.glutSolidSphere(handElbowRadius, sphereslices, spherestacks);
+	  	setLowerArmMaterialProperty(gl);
 	  gl.glPopMatrix();
 	  gl.glPopMatrix();
 	
   }
-  
+  	
+	private void setBlackMaterialProperty(GL2 gl)
+	{
+	  float[] matAmbient = {0f, 0f, 0f, 1.0f};
+	  float[] matDiffuse = {0f, 0f, 0f, 1.0f};
+	  float[] matSpecular = {0.6f, 0.6f, 0.6f, 1.0f};
+	  float[] matShininess = {100.0f};//0~128
+	  float[] matEmission = {0.0f, 0.0f, 0.0f, 1.0f};
+	  
+	  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, matAmbient, 0);
+	  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, matDiffuse, 0);
+	  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, 0);
+	  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
+	  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, 0);
+	}
   	private void setHeadMaterialProperty(GL2 gl)
   	{
   	  float[] matAmbient = {0.156f, 0.058f, 0.078f, 1.0f};
