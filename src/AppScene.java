@@ -122,60 +122,53 @@ public class AppScene {
 	  gl.glPopMatrix();
 	  
 
-	  //draw shoulders
+	  //draw shoulders and upper arms
 	  setUpperArmMaterialProperty(gl); 
 	  sphereslices = 100;
 	  spherestacks = 100;
 	  double shoulderRadius=0.5;
+	  float upArmRadius=0.18f;
+	  float upArmHeight=1.5f;
 	  
 	  gl.glPushMatrix();
-	  gl.glRotatef(-60, 0, 1, 0);//left
+	  gl.glRotatef(-60, 0, 1, 0);//right
 	  gl.glPushMatrix();
 	  gl.glTranslatef(0, 0,headradius);
-	  glut.glutSolidSphere(shoulderRadius, sphereslices, spherestacks);
+	  glut.glutSolidSphere(shoulderRadius, sphereslices, spherestacks);//shoulders
+	  glut.glutSolidCylinder(upArmRadius, upArmHeight, sphereslices, spherestacks);//upper arms
 	  gl.glPopMatrix();
 	  gl.glPopMatrix();
 	  
 	  gl.glPushMatrix();
 	  gl.glRotatef(150, 0, 1, 0);//left
 	  gl.glTranslatef(0, 0, headradius);
-	  glut.glutSolidSphere(shoulderRadius, sphereslices, spherestacks);
-	  gl.glPopMatrix();
-	  
-	  
-	  //draw upper arms
-	  sphereslices = 100;
-	  spherestacks = 100;
-	  float upArmRadius=0.18f;
-	  float upArmHeight=1.5f;
-	
-	  gl.glPushMatrix();
-	  gl.glRotatef(-60, 0, 1, 0);//right
-	  gl.glTranslatef(0, 0,headradius);
-	  glut.glutSolidCylinder(upArmRadius, upArmHeight, sphereslices, spherestacks);
-	  gl.glPopMatrix();
-	
-	  gl.glPushMatrix();
-	  gl.glRotatef(150, 0, 1, 0);//left
-	  gl.glTranslatef(0, 0,headradius);
-	  glut.glutSolidCylinder(upArmRadius, upArmHeight, sphereslices, spherestacks);
+	  glut.glutSolidSphere(shoulderRadius, sphereslices, spherestacks);//shoulders
+	  glut.glutSolidCylinder(upArmRadius, upArmHeight, sphereslices, spherestacks);//upper arms
 	  gl.glPopMatrix();
 	  
 	  //draw elbows
 	  setLowerArmMaterialProperty(gl);
-	  sphereslices = 100;
-	  spherestacks = 100;
 	  float elbowRadius=0.3f;
+	  float lowerArmRadius=0.18f;
+	  float lowerArmHeight=1f;
 	  gl.glPushMatrix();
 	  gl.glRotatef(-60, 0, 1, 0);//right elbow
 	  gl.glTranslatef(0, 0, headradius+upArmHeight);
 	  glut.glutSolidSphere(elbowRadius, sphereslices, spherestacks);
+	  gl.glPushMatrix();
+	  gl.glRotatef(90, 0, 1, 0);//right elbow
+	  glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, sphereslices, spherestacks);
+	  gl.glPopMatrix();
 	  gl.glPopMatrix();
 	
 	  gl.glPushMatrix();
 	  gl.glRotatef(150, 0, 1, 0);//left elbow
 	  gl.glTranslatef(0, 0, headradius+upArmHeight);
 	  glut.glutSolidSphere(elbowRadius, sphereslices, spherestacks);
+	  gl.glPushMatrix();
+	  gl.glRotatef(-90, 0, 1, 0);//right elbow
+	  glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, sphereslices, spherestacks);
+	  gl.glPopMatrix();
 	  gl.glPopMatrix();
 	
   }
