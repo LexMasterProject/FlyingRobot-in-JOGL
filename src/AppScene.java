@@ -86,16 +86,18 @@ public class AppScene {
 
   }
   
-  
-  private void drawRobot(GL2 gl)
+  private void transformForRobot(GL2 gl)
   {
-	  gl.glPushMatrix();
 	  gl.glTranslated(-2, 4, -2);
 	  gl.glRotatef(45, 0, 1, 0);
 	  gl.glRotatef(45, 1, 0, 0);
 	 gl.glRotatef(-45, 0, 1, 0);
-	  
-	 
+  }
+  
+  private void drawRobot(GL2 gl)
+  {
+	  gl.glPushMatrix();	  
+	  transformForRobot(gl);
 	  //draw head
 	  setHeadMaterialProperty(gl);
 	  int sphereslices = 100;

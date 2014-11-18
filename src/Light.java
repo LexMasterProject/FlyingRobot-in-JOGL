@@ -81,6 +81,7 @@ public class Light implements Cloneable {
   }
 
   public void use(GL2 gl, GLUT glut, boolean show) {
+
     if (switchedOn) {
       gl.glEnable(index); 
  
