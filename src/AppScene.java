@@ -91,8 +91,28 @@ public class AppScene {
 	  gl.glTranslated(-2, 4, -2);
 	  gl.glRotatef(45, 0, 1, 0);
 	  gl.glRotatef(45, 1, 0, 0);
-	 gl.glRotatef(-45, 0, 1, 0);
+	  gl.glRotatef(-45, 0, 1, 0);
   }
+  
+  private void transformForLeftEye(GL2 gl)
+  {
+	  float headradius=1;
+	  float eyeheight=30;
+	  float eyeInterval=60;
+	  gl.glRotatef((float)(-45-0.5*eyeInterval), 0, 1, 0);//left eye 
+	  gl.glRotatef(eyeheight, 0, 0, 1);//eye height
+	  gl.glTranslatef(headradius, 0, 0);
+  }
+  private void transformForRightEye(GL2 gl)
+  {
+	  float headradius=1;
+	  float eyeheight=30;
+	  float eyeInterval=60;
+	  gl.glRotatef((float)(-45+0.5*eyeInterval), 0, 1, 0);//right eye 
+	  gl.glRotatef(eyeheight, 0, 0, 1);//eye height
+	  gl.glTranslatef(headradius, 0, 0);
+  }
+  
   
   private void drawRobot(GL2 gl)
   {
@@ -112,21 +132,16 @@ public class AppScene {
 	  setEyeMaterialProperty(gl);
 	  sphereslices = 50;
 	  spherestacks = 50;
-	  double eyeradius=0.18;
-	  float eyeheight=30;
-	  float eyeInterval=60;
-			  
 	  gl.glPushMatrix();
-	  gl.glRotatef((float)(-45-0.5*eyeInterval), 0, 1, 0);//left eye 
-	  gl.glRotatef(eyeheight, 0, 0, 1);//eye height
-	  gl.glTranslatef(headradius, 0, 0);
+	
+	  double eyeradius=0.18;
+	  transformForLeftEye(gl);
 	  glut.glutSolidSphere(eyeradius, sphereslices, spherestacks);
+	  
 	  gl.glPopMatrix();
 	  
 	  gl.glPushMatrix();
-	  gl.glRotatef((float)(-45+0.5*eyeInterval), 0, 1, 0);//right eye 
-	  gl.glRotatef(eyeheight, 0, 0, 1);//eye height
-	  gl.glTranslatef(headradius, 0, 0);
+	  transformForRightEye(gl);
 	  glut.glutSolidSphere(eyeradius, sphereslices, spherestacks);
 	  gl.glPopMatrix();
 	  
