@@ -29,11 +29,22 @@ public class AppScene {
   private int canvaswidth=0, canvasheight=0;
 
   private Light light0;
+  private Light leftEyeSpotlight;
   private Camera camera;
   private Axes axes;
+  
+  private float robotx=0;
+  private float robotz=0;
 
   public AppScene(GL2 gl, Camera camera) {
     light0 = new Light(GL2.GL_LIGHT0);  // Create a default light
+    
+    //create left eye spotlight
+    float[]position={0,0,0,1};
+    leftEyeSpotlight=new Light(GL2.GL_LIGHT1,position);
+    float[] direction = {0,-1f,-0.2f}; // direction from position to origin 
+    leftEyeSpotlight.makeSpotlight(direction, 10f);
+    
     this.camera = camera;
     axes = new Axes(8, 8, 8);
   }
@@ -61,8 +72,19 @@ public class AppScene {
     rotate=(rotate+INC_ROTATE)%360;
   }
 
+  
   public void update() {
     incRotate();
+    robotx+=0.1f;
+    robotz+=0.1f;
+    if(robotx>5)
+    {
+    	robotx=0;
+    	robotz=0;
+    }
+    
+   
+    
   }
 
   private void doLight0(GL2 gl) {
@@ -72,11 +94,22 @@ public class AppScene {
     gl.glPopMatrix();
   }
   
+  private void doLight1(GL2 gl) {
+	  gl.glPushMatrix();
+	   transformForRobot(gl);
+	   transformForLeftEye(gl);
+	    this.leftEyeSpotlight.use(gl, glut, true);
+	    gl.glPopMatrix();
+	  }
+  
+  
+  
   public void render(GL2 gl) {
     gl.glClear(GL2.GL_COLOR_BUFFER_BIT|GL2.GL_DEPTH_BUFFER_BIT);
     gl.glLoadIdentity();
     camera.view(glu);      // Orientate the camera
     doLight0(gl);          // Place the default light
+    doLight1(gl);
 
     if (axes.getSwitchedOn()) 
       axes.display(gl, glut);
@@ -87,11 +120,12 @@ public class AppScene {
   }
   
   private void transformForRobot(GL2 gl)
-  {
+  {	 
+	  gl.glTranslatef(robotx, 0, robotz);
 	  gl.glTranslated(-2, 4, -2);
-	  gl.glRotatef(45, 0, 1, 0);
-	  gl.glRotatef(45, 1, 0, 0);
-	  gl.glRotatef(-45, 0, 1, 0);
+//	  gl.glRotatef(45, 0, 1, 0);
+//	  gl.glRotatef(45, 1, 0, 0);
+//      gl.glRotatef(-45, 0, 1, 0);
   }
   
   private void transformForLeftEye(GL2 gl)

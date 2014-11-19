@@ -14,7 +14,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 public class AppEntry extends Frame implements GLEventListener, ActionListener,
                                            ItemListener, MouseMotionListener {
 
-  public final static int WIDTH=500;
+  public final static int WIDTH=800;
   public final static int HEIGHT=500;
   private static final float NEAR_CLIP=0.1f;
   private static final float FAR_CLIP=100.0f;    
