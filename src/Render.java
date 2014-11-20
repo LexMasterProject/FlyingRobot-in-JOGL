@@ -70,6 +70,32 @@ public class Render {
     gl.glEnd();
   }
 
+  public void renderImmediateModeWithTex(GL2 gl) {
+	  	float[] matAmbientDiffuse = {1,1,1, 1.0f};
+	    float[] matSpecular = {0.5f,0.5f,0.5f, 1.0f};
+	    float[] matShininess = {16.0f};
+	    float[] matEmission = {0.0f, 0.0f, 0.0f, 1.0f};
+	    gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT_AND_DIFFUSE, matAmbientDiffuse, 0);
+	    gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, 0);
+	    gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
+	    gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, 0);
+
+	    gl.glBegin(GL2.GL_TRIANGLES);
+	      for (int t=0; t<triangles.length/3; t++)
+	        for (int i=0; i<3; i++) {
+	          int index = triangles[t*3+i]*3;
+	          gl.glNormal3d(normals[index], normals[index+1], normals[index+2]);
+	          gl.glVertex3d(vertices[index], vertices[index+1], vertices[index+2]);
+	        }
+	    gl.glEnd();
+	  }
+  
+  public void initialiseDisplayListWithTex(GL2 gl) {
+	    dlist = gl.glGenLists(1);
+	    gl.glNewList(dlist, GL2.GL_COMPILE);
+	      renderImmediateModeWithTex(gl);
+	    gl.glEndList(); 
+	  }
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   /* Display List */
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

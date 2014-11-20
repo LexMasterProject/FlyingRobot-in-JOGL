@@ -70,6 +70,8 @@ public class Mesh implements Cloneable {
     }
     return tempverts;
   }
+  
+  
 
   /**
    * Get the normals for the vertices as a reference.
