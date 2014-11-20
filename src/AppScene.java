@@ -31,13 +31,15 @@ public class AppScene {
   private Axes axes;
   
   private Robot robot1;
-  
+  private Room room;
 
 
   public AppScene(GL2 gl, Camera camera) {
     light0 = new Light(GL2.GL_LIGHT0);  // Create a default light
     
      this.robot1=new Robot();
+     this.room=new Room(gl);
+     this.room.prepareForRender();
     
     //create left eye spotlight
     float[]position={0,0,0,1};
@@ -80,7 +82,7 @@ public class AppScene {
   public void transformForRobot(GL2 gl)
   {	 
   	 
-	  gl.glTranslated(-2, 4, -2);
+	  gl.glTranslated(-2, 3, -2);
       gl.glRotatef(45, 0, 1, 0);
 	  gl.glRotatef(45, 1, 0, 0);
       gl.glRotatef(-45, 0, 1, 0);
@@ -113,11 +115,13 @@ public class AppScene {
     if (axes.getSwitchedOn()) 
       axes.display(gl, glut);
     
+    
+    room.display();
     gl.glPushMatrix();
     transformForRobot(gl);
     robot1.display(gl, glut);
     gl.glPopMatrix();
-    displayFloor(gl);
+  //  displayFloor(gl);
 
   }
   
