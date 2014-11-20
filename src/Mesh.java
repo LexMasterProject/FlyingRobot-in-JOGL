@@ -51,6 +51,7 @@ public class Mesh implements Cloneable {
    * @return  a reference to the vertex data structure
    */   
   public Vertex[] getVertices() {
+	  
     return vertices;
   }
 

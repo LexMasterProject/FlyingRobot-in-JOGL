@@ -45,7 +45,7 @@ public class AppScene {
     float[]position={0,0,0,1};
     leftEyeSpotlight=new Light(GL2.GL_LIGHT1,position);
     float[] direction = {1f,-1f,-0.3f}; // direction from position to origin 
-    leftEyeSpotlight.makeSpotlight(direction, 10f);
+    leftEyeSpotlight.makeSpotlight(direction, 20f);
     
     this.camera = camera;
     axes = new Axes(8, 8, 8);

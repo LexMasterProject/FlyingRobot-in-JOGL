@@ -19,7 +19,8 @@ import javax.media.opengl.*;
  
 public class Render {
   private Mesh mesh;
-  private double[] vertices;
+  private Vertex[] verticesV;
+  private double[] verticesd;
   private double[] normals;
   private int[] triangles;
   private int dlist;
@@ -36,7 +37,8 @@ public class Render {
   
   public void reset(Mesh m) {
     mesh = m;
-    vertices = m.getVertexList();
+    verticesd=m.getVertexList();
+    verticesV = m.getVertices();
     normals = m.getNormalList();
     triangles = m.getTriangleList();
     dlist = 0;
@@ -65,7 +67,7 @@ public class Render {
         for (int i=0; i<3; i++) {
           int index = triangles[t*3+i]*3;
           gl.glNormal3d(normals[index], normals[index+1], normals[index+2]);
-          gl.glVertex3d(vertices[index], vertices[index+1], vertices[index+2]);
+          gl.glVertex3d(verticesd[index], verticesd[index+1], verticesd[index+2]);
         }
     gl.glEnd();
   }
@@ -83,9 +85,12 @@ public class Render {
 	    gl.glBegin(GL2.GL_TRIANGLES);
 	      for (int t=0; t<triangles.length/3; t++)
 	        for (int i=0; i<3; i++) {
-	          int index = triangles[t*3+i]*3;
-	          gl.glNormal3d(normals[index], normals[index+1], normals[index+2]);
-	          gl.glVertex3d(vertices[index], vertices[index+1], vertices[index+2]);
+	          int index = triangles[t*3+i];
+//	          gl.glNormal3d(normals[index], normals[index+1], normals[index+2]);
+//	          gl.glVertex3d(verticesd[index], verticesd[index+1], verticesd[index+2]);
+	          gl.glTexCoord2dv(verticesV[index].getTextureCoord(), 0);
+	          gl.glNormal3dv(verticesV[index].getNormal(), 0);
+	          gl.glVertex3dv(verticesV[index].getPosition(), 0);
 	        }
 	    gl.glEnd();
 	  }
@@ -139,7 +144,7 @@ public class Render {
         for (int i=0; i<3; i++) {
           int index = triangles[t*3+i]*3;
           gl.glNormal3d(normals[index], normals[index+1], normals[index+2]);
-          gl.glVertex3d(vertices[index], vertices[index+1], vertices[index+2]);
+          gl.glVertex3d(verticesd[index], verticesd[index+1], verticesd[index+2]);
         }
     gl.glEnd();
     if (!lightingOn) gl.glEnable(GL2.GL_LIGHTING);

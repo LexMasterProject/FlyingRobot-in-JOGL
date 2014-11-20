@@ -20,22 +20,26 @@ public class Room {
 	
 	public Room(GL2 gl)
 	{
-		floorMesh = meshFactory.createPlane(40,40,40,40,1,1);
+		floorMesh = meshFactory.createPlane(40,40,80,80,1,1);
 		this.gl=gl;
 		
 		//load texture
-		floorTex=loadTexture(gl, "wattBook.jpg");
+		floorTex=loadTexture(gl, "rotk_gollum_1024.jpg");
 	}
 	
 	public void prepareForRender()
 	{
 		floorRender= new Render(floorMesh);
-		floorRender.initialiseDisplayList(gl);
+		floorRender.initialiseDisplayListWithTex(gl);
 	}
 	
 	public void display()
 	{
+		floorTex.enable(gl);
+		floorTex.bind(gl);
+		floorTex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
 		floorRender.renderDisplayList(gl);
+		floorTex.disable(gl);
 		//floorRender.wireframeImmediateMode(gl, true);
 	}
 	public Mesh getFloor() {
