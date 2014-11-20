@@ -15,9 +15,7 @@
  */
 
 import javax.media.opengl.*;
-import com.jogamp.opengl.util.*;
-import com.jogamp.common.nio.*;
-import java.nio.*;
+
  
 public class Render {
   private Mesh mesh;
