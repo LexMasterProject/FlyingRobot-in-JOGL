@@ -12,8 +12,8 @@ import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
 public class Room {
 	private ProceduralMeshFactory meshFactory;
-	private Mesh floorMesh;
-	private Render floorRender;
+	private Mesh floorMesh,leftWallMesh,rightWallMesh,forwardWallMesh,backWallMesh;
+	private Render floorRender,leftWallRender;
 	private GL2 gl;
 	
 	private Texture floorTex;
@@ -21,6 +21,10 @@ public class Room {
 	public Room(GL2 gl)
 	{
 		floorMesh = meshFactory.createPlane(40,40,80,80,1,1);
+		double []planeNormal=new double[]{0,0,0};
+		
+		planeNormal[0]=1;
+		leftWallMesh= meshFactory.createPlane(40, 40, 40, 40, 1, 1, planeNormal);
 		this.gl=gl;
 		
 		//load texture
@@ -31,10 +35,15 @@ public class Room {
 	{
 		floorRender= new Render(floorMesh);
 		floorRender.initialiseDisplayListWithTex(gl);
+		
+		leftWallRender=new Render(leftWallMesh);
+		
+		
 	}
 	
 	public void display()
 	{
+		//display the floor
 		floorTex.enable(gl);
 		floorTex.bind(gl);
 		floorTex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
