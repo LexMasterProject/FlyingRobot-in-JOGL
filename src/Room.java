@@ -24,7 +24,7 @@ public class Room {
 		this.gl=gl;
 		
 		//load texture
-		floorTex=loadTexture(gl, "rotk_gollum_1024.jpg");
+		floorTex=loadTexture(gl, "download.jpeg");
 	}
 	
 	public void prepareForRender()
