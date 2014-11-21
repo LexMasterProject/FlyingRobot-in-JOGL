@@ -36,15 +36,8 @@ public class ProceduralMeshFactory {
    */ 
   // creates uv coordinates irrespective of what was asked for.
   // Assumes Vertex class has u,v attributes
-  
   public static Mesh createPlane(double width, double depth, int m, int n,
-                                 double tilingM, double tilingN)
-  {
-	double []default_normal=new double[]{0,1,0};
-	return ProceduralMeshFactory.createPlane(width, depth, m, n, tilingM, tilingN, default_normal);  
-                                 }
-  public static Mesh createPlane(double width, double depth, int m, int n,
-                                 double tilingM, double tilingN,double[]normal)  {
+                                 double tilingM, double tilingN)  {
     if (m<2) m=2; 
     if (n<2) n=2;
 
@@ -89,10 +82,10 @@ public class ProceduralMeshFactory {
     
     // Set Normals;
     for (int i=0; i<numVertices; ++i) {
-      vertices[i].setNormal(normal);
+      vertices[i].setNormal(0,1,0);
     }
     for (int i=0; i<numTriangles; ++i) {
-      triangles[i].setTriangleNormal(normal);
+      triangles[i].setTriangleNormal(0,1,0);
     }
 	
     //Calc Normals; - not required, as all the normals point in the same direction so can just be set
