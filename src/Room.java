@@ -11,35 +11,57 @@ import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
 
 public class Room {
-	private ProceduralMeshFactory meshFactory;
-	private Mesh floorMesh;
-	private Render floorRender;
+	private Mesh floorMesh,leftMesh;
+	private Render floorRender,leftRender;
 	private GL2 gl;
 	
-	private Texture floorTex;
+	private Texture floorTex,leftTex;
 	
 	public Room(GL2 gl)
 	{
-		floorMesh = meshFactory.createPlane(40,40,80,80,1,1);
 		this.gl=gl;
+
+		floorMesh = ProceduralMeshFactory.createPlane(40,40,80,80,1,1);
+		leftMesh= ProceduralMeshFactory.createPlane(10,40,80,80,1,1);
 		
 		//load texture
-		floorTex=loadTexture(gl, "rotk_gollum_1024.jpg");
+		floorTex=loadTexture(gl, "floor.jpg");
+		leftTex=loadTexture(gl, "download.jpeg");
+
 	}
 	
 	public void prepareForRender()
 	{
 		floorRender= new Render(floorMesh);
 		floorRender.initialiseDisplayListWithTex(gl);
+		
+		leftRender=new Render(leftMesh);
+		leftRender.initialiseDisplayListWithTex(gl);
+		
+		
 	}
 	
 	public void display()
 	{
+		gl.glPushMatrix();
 		floorTex.enable(gl);
 		floorTex.bind(gl);
 		floorTex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
 		floorRender.renderDisplayList(gl);
 		floorTex.disable(gl);
+		gl.glPopMatrix();
+		
+		gl.glPushMatrix();
+		gl.glTranslatef(-20, 5, 0);
+		gl.glRotatef(-90, 0, 0, 1);
+		leftTex.enable(gl);
+		leftTex.bind(gl);
+		leftTex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
+		leftRender.renderDisplayList(gl);
+		leftTex.disable(gl);
+		gl.glPopMatrix();
+		
+		
 		//floorRender.wireframeImmediateMode(gl, true);
 	}
 	public Mesh getFloor() {
