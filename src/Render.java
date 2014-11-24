@@ -86,8 +86,6 @@ public class Render {
 	      for (int t=0; t<triangles.length/3; t++)
 	        for (int i=0; i<3; i++) {
 	          int index = triangles[t*3+i];
-//	          gl.glNormal3d(normals[index], normals[index+1], normals[index+2]);
-//	          gl.glVertex3d(verticesd[index], verticesd[index+1], verticesd[index+2]);
 	          gl.glTexCoord2dv(verticesV[index].getTextureCoord(), 0);
 	          gl.glNormal3dv(verticesV[index].getNormal(), 0);
 	          gl.glVertex3dv(verticesV[index].getPosition(), 0);

@@ -26,7 +26,7 @@ public class Room {
 		
 		//load texture
 		floorTex=loadTexture(gl, "floor.jpg");
-		leftTex=loadTexture(gl, "download.jpeg");
+		leftTex=loadTexture(gl, "wall.jpeg");
 
 	}
 	

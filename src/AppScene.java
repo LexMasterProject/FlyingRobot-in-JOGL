@@ -121,21 +121,12 @@ public class AppScene {
     transformForRobot(gl);
     robot1.display(gl, glut);
     gl.glPopMatrix();
-  //  displayFloor(gl);
+
 
   }
   
 
-  private void displayFloor(GL2 gl) {
-	  float[] matAmbient = {0.2f, 0.6f, 0.2f, 1.0f};
-	  float[] matDiffuse = {0.2f, 0.6f, 0.2f, 1.0f};
-	  float[] matSpecular = {0.6f, 0.6f, 0.6f, 1.0f};
-	  float[] matShininess = {20.0f};
-	  float[] matEmission = {0.0f, 0.0f, 0.0f, 1.0f}; gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, matAmbient, 0); gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, matDiffuse, 0); gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, 0); gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0); gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, 0); gl.glPushMatrix(); // floor
-	        gl.glScaled(10,0.025,10);
-	        glut.glutSolidSphere(1.0f, 100,100);
-	      gl.glPopMatrix();
-	  }
+
   
   
 
