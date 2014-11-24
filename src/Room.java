@@ -11,25 +11,32 @@ import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
 
 public class Room {
-	private Mesh floorMesh,leftMesh;
-	private Render floorRender,leftRender;
+	private Mesh floorMesh,wallMesh;
+	private Render floorRender,wallRender;
 	private GL2 gl;
+	private Texture floorTex,wallTex;
 	
-	private Texture floorTex,leftTex;
+	private double size;
+	private double wallHeight;
 	
 	public Room(GL2 gl)
 	{
 		this.gl=gl;
-
-		floorMesh = ProceduralMeshFactory.createPlane(40,40,80,80,1,1);
-		leftMesh= ProceduralMeshFactory.createPlane(10,40,80,80,1,1);
+		reset();
+		floorMesh = ProceduralMeshFactory.createPlane(size,size,(int)(2*size),(int)(2*size),1,1);
+		wallMesh= ProceduralMeshFactory.createPlane(wallHeight,size,80,80,1,1);
 		
 		//load texture
 		floorTex=loadTexture(gl, "floor.jpg");
-		leftTex=loadTexture(gl, "wall.jpeg");
-		
+		wallTex=loadTexture(gl, "wall.jpeg");
 		createRenderObjects();
 
+	}
+	
+	private void reset()
+	{
+		wallHeight=20;
+		size=40;
 	}
 	
 	private void createRenderObjects()
@@ -37,33 +44,71 @@ public class Room {
 		floorRender= new Render(floorMesh);
 		floorRender.initialiseDisplayListWithTex(gl);
 		
-		leftRender=new Render(leftMesh);
-		leftRender.initialiseDisplayListWithTex(gl);	
+		wallRender=new Render(wallMesh);
+		wallRender.initialiseDisplayListWithTex(gl);	
 	}
 	
 	public void display()
 	{
-		gl.glPushMatrix();
+		drawFloor();
+		drawWalls();	
+	}
+	
+	private void drawFloor()
+	{
 		floorTex.enable(gl);
 		floorTex.bind(gl);
 		floorTex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
+		gl.glPushMatrix();
 		floorRender.renderDisplayList(gl);
-		floorTex.disable(gl);
 		gl.glPopMatrix();
+		floorTex.disable(gl);
+	}
+	
+	private void drawWalls()
+	{
+		wallTex.enable(gl);
+		wallTex.bind(gl);
+		wallTex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
 		
 		gl.glPushMatrix();
-		gl.glTranslatef(-20, 5, 0);
+		//draw left wall
+		gl.glPushMatrix();
+		gl.glTranslatef(-(float)size/2, (float)wallHeight/2, 0);
 		gl.glRotatef(-90, 0, 0, 1);
-		leftTex.enable(gl);
-		leftTex.bind(gl);
-		leftTex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
-		leftRender.renderDisplayList(gl);
-		leftTex.disable(gl);
+		wallRender.renderDisplayList(gl);
+		gl.glPopMatrix();
+	
+		
+		//draw right wall
+		gl.glPushMatrix();
+		gl.glTranslatef((float)size/2, (float)wallHeight/2, 0);
+		gl.glRotatef(90, 0, 0, 1);
+		wallRender.renderDisplayList(gl);
 		gl.glPopMatrix();
 		
 		
-		//floorRender.wireframeImmediateMode(gl, true);
+		//draw forward wall
+		gl.glPushMatrix();
+		gl.glTranslatef(0, (float)wallHeight/2, -(float)size/2);
+		gl.glRotatef(90, 0, 1, 0);
+		gl.glRotatef(90, 0, 0, 1);
+		wallRender.renderDisplayList(gl);
+		gl.glPopMatrix();
+		
+		//draw back wall
+		gl.glPushMatrix();
+		gl.glTranslatef(0, (float)wallHeight/2, (float)size/2);
+		gl.glRotatef(-90, 0, 1, 0);
+		gl.glRotatef(90, 0, 0, 1);
+		wallRender.renderDisplayList(gl);
+		gl.glPopMatrix();
+		
+		gl.glPopMatrix();
+		
+		wallTex.disable(gl);
 	}
+	
 	public Mesh getFloor() {
 		return floorMesh;
 	}
