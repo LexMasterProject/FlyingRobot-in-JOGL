@@ -27,18 +27,18 @@ public class Room {
 		//load texture
 		floorTex=loadTexture(gl, "floor.jpg");
 		leftTex=loadTexture(gl, "wall.jpeg");
+		
+		createRenderObjects();
 
 	}
 	
-	public void prepareForRender()
+	private void createRenderObjects()
 	{
 		floorRender= new Render(floorMesh);
 		floorRender.initialiseDisplayListWithTex(gl);
 		
 		leftRender=new Render(leftMesh);
-		leftRender.initialiseDisplayListWithTex(gl);
-		
-		
+		leftRender.initialiseDisplayListWithTex(gl);	
 	}
 	
 	public void display()

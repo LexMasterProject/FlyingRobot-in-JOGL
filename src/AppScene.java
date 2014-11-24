@@ -39,7 +39,7 @@ public class AppScene {
     
      this.robot1=new Robot();
      this.room=new Room(gl);
-     this.room.prepareForRender();
+  
     
     //create left eye spotlight
     float[]position={0,0,0,1};
