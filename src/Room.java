@@ -27,8 +27,13 @@ public class Room {
 		wallMesh= ProceduralMeshFactory.createPlane(wallHeight,size,80,80,1,1);
 		
 		//load texture
-		floorTex=loadTexture(gl, "floor.jpg");
+		floorTex=loadTexture(gl, "marble.jpg");
+		floorTex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_REPEAT);
+		floorTex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_REPEAT);
 		wallTex=loadTexture(gl, "wall.jpeg");
+		wallTex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_REPEAT);
+		wallTex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_REPEAT);
+		
 		createRenderObjects();
 
 	}
@@ -59,6 +64,14 @@ public class Room {
 		floorTex.enable(gl);
 		floorTex.bind(gl);
 		floorTex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
+		
+		gl.glMatrixMode(GL2.GL_TEXTURE); 
+		gl.glLoadIdentity(); 
+		gl.glScaled(8,8,8); 
+		
+		gl.glMatrixMode(GL2.GL_MODELVIEW);
+		
+	
 		gl.glPushMatrix();
 		floorRender.renderDisplayList(gl);
 		gl.glPopMatrix();
@@ -66,7 +79,11 @@ public class Room {
 	}
 	
 	private void drawWalls()
-	{
+	{	
+		gl.glMatrixMode(GL2.GL_TEXTURE); 
+		gl.glLoadIdentity(); 
+		gl.glScaled(1, 3, 1);
+		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		wallTex.enable(gl);
 		wallTex.bind(gl);
 		wallTex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
