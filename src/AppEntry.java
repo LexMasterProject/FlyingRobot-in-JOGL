@@ -142,12 +142,13 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
   
   private void setContinuousAnimation(boolean b) {
     continuousAnimation = b;
+    if (b) scene.startAnimation();
+    else scene.pauseAnimation();
   }
 
   private void reset() {
     checkAxes.setState(true);
     scene.getAxes().setSwitchedOn(true);
-    checkObjects.setState(true);
     checkLight0.setState(true);
     scene.getLight().setSwitchedOn(true);
     setContinuousAnimation(CONTINUOUS_ANIMATION);

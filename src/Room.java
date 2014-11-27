@@ -12,42 +12,41 @@ import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
 public class Room {
 	private Mesh floorMesh,wallMesh;
-	private Render floorRender,wallRender;
+	private Render floorCeilingRender,wallRender;
 	private GL2 gl;
-	private Texture floorTex,wallTex;
+	private Texture floorTex,wallTex,ceilingTex;
 	
-	private double size;
-	private double wallHeight;
+	public final double size=40;
+	public final double wallHeight=20;
+	
 	
 	public Room(GL2 gl)
 	{
 		this.gl=gl;
-		reset();
+	
 		floorMesh = ProceduralMeshFactory.createPlane(size,size,(int)(2*size),(int)(2*size),1,1);
 		wallMesh= ProceduralMeshFactory.createPlane(wallHeight,size,80,80,1,1);
 		
 		//load texture
-		floorTex=loadTexture(gl, "marble.jpg");
+		floorTex=loadTexture(gl, "floor.jpg");
 		floorTex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_REPEAT);
 		floorTex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_REPEAT);
-		wallTex=loadTexture(gl, "wall.jpeg");
+		wallTex=loadTexture(gl, "wall.jpg");
 		wallTex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_REPEAT);
 		wallTex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_REPEAT);
+		
+		ceilingTex=loadTexture(gl, "ceiling.jpg");
 		
 		createRenderObjects();
 
 	}
 	
-	private void reset()
-	{
-		wallHeight=20;
-		size=40;
-	}
+
 	
 	private void createRenderObjects()
 	{
-		floorRender= new Render(floorMesh);
-		floorRender.initialiseDisplayListWithTex(gl);
+		floorCeilingRender= new Render(floorMesh);
+		floorCeilingRender.initialiseDisplayListWithTex(gl);
 		
 		wallRender=new Render(wallMesh);
 		wallRender.initialiseDisplayListWithTex(gl);	
@@ -57,8 +56,26 @@ public class Room {
 	{
 		drawFloor();
 		drawWalls();	
+		drawCeiling();
 	}
 	
+	private void drawCeiling()
+	{
+		ceilingTex.enable(gl);
+		ceilingTex.bind(gl);
+		ceilingTex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
+		
+		gl.glMatrixMode(GL2.GL_TEXTURE); 
+		gl.glLoadIdentity(); 
+		gl.glMatrixMode(GL2.GL_MODELVIEW);
+		
+		gl.glPushMatrix();
+		gl.glTranslated(0, wallHeight, 0);
+		gl.glRotated(180, 1, 0, 0);
+		floorCeilingRender.renderDisplayList(gl);
+		gl.glPopMatrix();
+		ceilingTex.disable(gl);
+	}
 	private void drawFloor()
 	{
 		floorTex.enable(gl);
@@ -73,7 +90,7 @@ public class Room {
 		
 	
 		gl.glPushMatrix();
-		floorRender.renderDisplayList(gl);
+		floorCeilingRender.renderDisplayList(gl);
 		gl.glPopMatrix();
 		floorTex.disable(gl);
 	}
@@ -82,7 +99,7 @@ public class Room {
 	{	
 		gl.glMatrixMode(GL2.GL_TEXTURE); 
 		gl.glLoadIdentity(); 
-		gl.glScaled(1, 3, 1);
+	//	gl.glScaled(1, 3, 1);
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		wallTex.enable(gl);
 		wallTex.bind(gl);
@@ -126,6 +143,7 @@ public class Room {
 		wallTex.disable(gl);
 	}
 	
+
 	public Mesh getFloor() {
 		return floorMesh;
 	}
