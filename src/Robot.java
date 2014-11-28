@@ -4,11 +4,19 @@ import com.jogamp.opengl.util.gl2.GLUT;
 
 
 public class Robot {
-	final float DEFAULT_HEAD_RADIUS=1;
-	final float DEFAULT_EYE_INTERVAL=60;
-	final float DEFAULT_EYE_HEIGHT=30;
+	private final float DEFAULT_HEAD_RADIUS=1;
+	private final float DEFAULT_EYE_INTERVAL=60;
+	private final float DEFAULT_EYE_HEIGHT=30;
+	private final double shoulderRadius=0.5;
+	private float upArmRadius=0.18f;
+	private float upArmHeight=1.5f;
+	private float headRadius;
+	private float eyeInterval;
+	private float eyeHeight;
+	private float lowerArmRadius=0.18f;
+	private float lowerArmHeight=1f;
 	
-	
+	private double rotateLeftShoulder=0;
 	
 	public Robot()
 	{
@@ -32,6 +40,21 @@ public class Robot {
 	  
 	  public void display(GL2 gl,GLUT glut)
 	  {
+		  setLowerArmMaterialProperty(gl);
+		  gl.glPushMatrix();
+		  gl.glTranslated(0, 3, 0);
+		  gl.glRotatef(90, 0, 1, 0);//right lower arms
+	  	  glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, 50, 50);
+	  	  gl.glPopMatrix();
+		  
+	  	  setUpperArmMaterialProperty(gl);
+		  gl.glPushMatrix();
+		  gl.glRotatef(-60, 0, 1, 0);//right upper arms
+		  gl.glTranslatef(0, 3,this.headRadius);
+		  glut.glutSolidCylinder(upArmRadius, upArmHeight, 50, 50);
+		  gl.glPopMatrix();
+		  
+		  
 		  gl.glPushMatrix();	  
 		  //draw head
 		  setHeadMaterialProperty(gl);
@@ -142,7 +165,7 @@ public class Robot {
 		  	gl.glTranslatef(0, 0, this.headRadius+upArmHeight);
 		  	glut.glutSolidSphere(elbowRadius, sphereslices, spherestacks);
 		  	gl.glPushMatrix();
-		  		gl.glRotatef(-90, 0, 1, 0);//right lower arms
+		  		gl.glRotatef(-90, 0, 1, 0);//left lower arms
 		  		glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, sphereslices, spherestacks);
 		  		//hand elbows
 		  		gl.glPushMatrix();
@@ -289,8 +312,6 @@ public class Robot {
 
 
 
-	private float headRadius;
-	private float eyeInterval;
-	private float eyeHeight;
+	
 	
 }

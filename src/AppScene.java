@@ -29,11 +29,11 @@ public class AppScene {
 
 	private Robot robot1;
 	private Room room;
-	private AnimationScene animationScene;
+	private Animation animationScene;
 
 
 	public AppScene(GL2 gl, Camera camera) {
-		animationScene = new AnimationScene();
+		animationScene = new Animation();
 		light0 = new Light(GL2.GL_LIGHT0);  // Create a default light
 
 		this.robot1=new Robot();
@@ -45,6 +45,8 @@ public class AppScene {
 		leftEyeSpotlight=new Light(GL2.GL_LIGHT1,position);
 		float[] direction = {1f,-1f,-0.3f}; // direction from position to origin 
 		leftEyeSpotlight.makeSpotlight(direction, 20f);
+		
+		//create ceiling spotlight
 
 		this.camera = camera;
 		axes = new Axes(8, 8, 8);
@@ -88,12 +90,19 @@ public class AppScene {
 
 	}
 	public void transformForRobot(GL2 gl)
-	{	 
+	{
+		double cx = animationScene.getParam(Animation.ROBOT_X_PARAM);
+		double cy = animationScene.getParam(Animation.ROBOT_Y_PARAM);
+		double cz = animationScene.getParam(Animation.ROBOT_Z_PARAM);
+		double r = animationScene.getParam(Animation.ROBOT_RSELF_PARAM);
 
-		gl.glTranslated(-2, 3, -2);
-		gl.glRotatef(45, 0, 1, 0);
-		gl.glRotatef(45, 1, 0, 0);
-		gl.glRotatef(-45, 0, 1, 0);
+	//	gl.glTranslated(cx, cy, cz);
+	//	gl.glTranslated(-Room.size/2+3, 3, -2);
+		
+		gl.glTranslated(0, 3, 0);
+		gl.glRotated(r, 0, 1, 0);
+		gl.glRotated(45, 1, 0, 0);
+		gl.glRotated(-45, 0, 1, 0);
 	}
 
 	private void doLight0(GL2 gl) {
@@ -105,7 +114,6 @@ public class AppScene {
 
 	private void doLeftEyeLight(GL2 gl) {
 		gl.glPushMatrix();
-		animateRobot(gl);
 		transformForRobot(gl);
 		robot1.transformForLeftEye(gl);
 		this.leftEyeSpotlight.use(gl, glut, true);
@@ -124,22 +132,14 @@ public class AppScene {
 		if (axes.getSwitchedOn()) 
 			axes.display(gl, glut);
 
-
 		room.display();
 		gl.glPushMatrix();
-		animateRobot(gl);
+		
 		transformForRobot(gl);
 		robot1.display(gl, glut);
 		gl.glPopMatrix();
 	}
 
-	private void animateRobot(GL2 gl)
-	{
-		double cx = animationScene.getParam(AnimationScene.ROBOT_X_PARAM);
-		double cy = animationScene.getParam(AnimationScene.ROBOT_Y_PARAM);
-		double cz = animationScene.getParam(AnimationScene.ROBOT_Z_PARAM);
-		gl.glTranslated(cx,cy,cz);
-	}
 
 
 

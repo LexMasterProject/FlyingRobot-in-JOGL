@@ -13,7 +13,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 
 public class Light implements Cloneable {
 
-	public static final float[] DEFAULT_POSITION = {4.0f,3.0f,0.0f,1.0f};
+	public static final float[] DEFAULT_POSITION = {4.0f,7.0f,7.0f,1.0f};
 	// (x,y,z,w) position of light.
 	// If w is 0, then it is a directional light (at infinite distance in the given vector direction).
 	// If w is 1, then it is a positional light (at the given position in the scene, and emitting in all directions).

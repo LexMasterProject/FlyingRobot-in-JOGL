@@ -16,8 +16,8 @@ public class Room {
 	private GL2 gl;
 	private Texture floorTex,wallTex,ceilingTex;
 	
-	public final double size=40;
-	public final double wallHeight=20;
+	public static final double size=40;
+	public static final double wallHeight=20;
 	
 	
 	public Room(GL2 gl)

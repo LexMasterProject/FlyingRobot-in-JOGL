@@ -5,14 +5,16 @@
  * @version   1.0 (21/11/2013)
  */
   
-public class AnimationScene {
+public class Animation {
 
   public static final int LIGHT_PARAM = 0;
   public static final int PLANE_PARAM = 1;
   public static final int ROBOT_X_PARAM = 2;
   public static final int ROBOT_Y_PARAM = 3;
   public static final int ROBOT_Z_PARAM = 4;
-  public static final int CUBE_PARAM  = 5;
+  public static final int ROBOT_RSELF_PARAM = 5;
+  
+  public static final int CUBE_PARAM  = 6;
   
   public static final int MAX_PARAMS = 10;
   private Anim[] param;
@@ -24,24 +26,30 @@ public class AnimationScene {
    *
    * @param keys List of key info, i.e. list of pairs {key frame value, key parameter value}
    */    
-  public AnimationScene() {
+  public Animation() {
     param = new Anim[MAX_PARAMS];
     param[LIGHT_PARAM] = create(0.0, 15.0, true, true,   // light rotate
                                 new double[]{0.0,0.0, 0.5,-6.0, 1.0,0.0}); 
     param[PLANE_PARAM] = create(10.0, 17.0, true, true,  // plane x
                                 new double[]{0.0,0.0, 0.3,0.7, 0.4,1.0, 0.8,0.7, 1.0, 0.0});
-    param[ROBOT_X_PARAM] = create(3.0, 10.0, true, true,  // cylinder x
-                               new double[]{0.0,1.0, 0.3,1.0, 0.6,-2.0, 1.0, 2.0});
-    param[ROBOT_Y_PARAM] = create(3.0, 10.0, true, true,  // cylinder y
-                               new double[]{0.0,0.5, 0.3,2.0, 0.6,2.0, 1.0, -2.5});
-    param[ROBOT_Z_PARAM] = create(3.0, 10.0, true, true,  // cylinder z
-                               new double[]{0.0,0.0, 0.3,0.0, 0.6,2.0, 1.0, 2.0});
+    param[ROBOT_X_PARAM] = create(0.0, 5.0, true, true,  // robot x
+                               new double[]{0.0,0.0, 0.5,Room.size-6,
+			                     1.0,0.0});
+    param[ROBOT_Y_PARAM] = create(3.0, 10.0, true, true,  // robot y
+                               new double[]{0.0,0.0,1.0,0.0});
+    param[ROBOT_Z_PARAM] = create(0.0, 5.0, true, true,  // robot z
+                               new double[]{0.0,0.0, 0.25,Room.size/2-3, 0.5,0.0, 0.75, -Room.size/2+3,
+    										1.0,0.0});
+
+    param[ROBOT_RSELF_PARAM] = create(0.0, 1.0, true, true,  // robot self rotate
+                               new double[]{0.0,0.0,
+    										1.0,360.0});
     param[CUBE_PARAM] = create(0.0, 30.0, true, true,  // cube rotate
                                new double[]{0.0,0.0, 1.0, 360.0});  
     numParams = CUBE_PARAM+1;
     localTime = 0;
     savedLocalTime = 0;
-    repeatTime = 30;
+    repeatTime = 1;
     globalStartTime = getSeconds();
   }
   
@@ -114,7 +122,7 @@ public class AnimationScene {
   }
 
   public static void main(String[] args) {
-    AnimationScene a = new AnimationScene();  
+    Animation a = new Animation();  
     System.out.println(a.getParam(a.LIGHT_PARAM));
     double start = a.getSeconds();
     double t=start;
