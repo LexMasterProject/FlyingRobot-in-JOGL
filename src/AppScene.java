@@ -97,6 +97,8 @@ public class AppScene {
 	public void update() {
 		incRotate();
 		animationScene.update();
+		double rightUpArmRotate=animationScene.getParam(animationScene.ROBOT_RRIGHT_UP_PARAM);
+		robot1.updateRobotAniPara(rightUpArmRotate);
 
 	}
 	public void transformForRobot(GL2 gl)
@@ -106,13 +108,13 @@ public class AppScene {
 		double cz = animationScene.getParam(Animation.ROBOT_Z_PARAM);
 		double r = animationScene.getParam(Animation.ROBOT_RSELF_PARAM);
 
-		gl.glTranslated(cx, cy, cz);
-		gl.glTranslated(-Room.size/2+3, 3, -2);
-		
+//		gl.glTranslated(cx, cy, cz);
+//		gl.glTranslated(-Room.size/2+3, 3, -2);
+//		
 		gl.glTranslated(0, 3, 0);
-		gl.glRotated(r, 0, 1, 0);
-		gl.glRotated(45, 1, 0, 0);
-		gl.glRotated(-45, 0, 1, 0);
+		//gl.glRotated(r, 0, 1, 0);
+	//	gl.glRotated(45, 1, 0, 0);
+	//	gl.glRotated(-45, 0, 1, 0);
 	}
 
 	private void doWorldLight(GL2 gl) {

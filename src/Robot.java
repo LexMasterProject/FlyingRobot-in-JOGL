@@ -1,5 +1,6 @@
 import javax.media.opengl.GL2;
 
+import com.jogamp.common.util.Ringbuffer;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 
@@ -15,6 +16,7 @@ public class Robot {
 	private float eyeHeight;
 	private float lowerArmRadius=0.18f;
 	private float lowerArmHeight=1f;
+	private double rightUpArmRotate;
 	
 	private double rotateLeftShoulder=0;
 	
@@ -25,6 +27,10 @@ public class Robot {
 		eyeHeight=DEFAULT_EYE_HEIGHT;
 	}
 	
+	public void updateRobotAniPara(double rightUpArmRotate)
+	{
+		this.rightUpArmRotate=rightUpArmRotate;
+	}
 	  public void transformForLeftEye(GL2 gl)
 	  {
 		  gl.glRotatef((float)(-45-0.5*this.eyeInterval), 0, 1, 0);//left eye 
@@ -49,6 +55,7 @@ public class Robot {
 		  
 	  	  setUpperArmMaterialProperty(gl);
 		  gl.glPushMatrix();
+		  gl.glRotated(this., arg1, arg2, arg3);
 		  gl.glRotatef(-60, 0, 1, 0);//right upper arms
 		  gl.glTranslatef(0, 3,this.headRadius);
 		  glut.glutSolidCylinder(upArmRadius, upArmHeight, 50, 50);

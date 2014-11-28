@@ -13,9 +13,7 @@ public class Animation {
   public static final int ROBOT_Y_PARAM = 3;
   public static final int ROBOT_Z_PARAM = 4;
   public static final int ROBOT_RSELF_PARAM = 5;
-  
-  public static final int CUBE_PARAM  = 6;
-  
+  public static final int ROBOT_RRIGHT_UP_PARAM = 6;
   public static final int MAX_PARAMS = 10;
   private Anim[] param;
   private int numParams;
@@ -40,13 +38,14 @@ public class Animation {
     param[ROBOT_Z_PARAM] = create(0.0, 5.0, true, true,  // robot z
                                new double[]{0.0,0.0, 0.25,Room.size/2-3, 0.5,0.0, 0.75, -Room.size/2+3,
     										1.0,0.0});
-
+    
     param[ROBOT_RSELF_PARAM] = create(0.0, 5.0, true, true,  // robot self rotate
                                new double[]{0.0,0.0,
     										1.0,360.0});
-    param[CUBE_PARAM] = create(0.0, 30.0, true, true,  // cube rotate
-                               new double[]{0.0,0.0, 1.0, 360.0});  
-    numParams = CUBE_PARAM+1;
+    param[ROBOT_RRIGHT_UP_PARAM]= create(0.0, 5.0, true, true,  // robot right up arms rotate
+            	new double[]{0.0,0.0,
+							0.5,30.0,1.0,0});
+    numParams = ROBOT_RRIGHT_UP_PARAM+1;
     localTime = 0;
     savedLocalTime = 0;
     repeatTime = 5;
