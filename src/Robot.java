@@ -254,7 +254,7 @@ public class Robot {
   	  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
   	  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, 0);
   	}
-  	private void setEyeMaterialProperty(GL2 gl)
+	public static void setEyeMaterialProperty(GL2 gl)
   	{
   		  float[] matAmbient = {0, 0, 0, 1.0f};
   		  float[] matDiffuse = {0, 0, 0, 1.0f};

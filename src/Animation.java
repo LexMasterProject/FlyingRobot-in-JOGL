@@ -35,13 +35,13 @@ public class Animation {
     param[ROBOT_X_PARAM] = create(0.0, 5.0, true, true,  // robot x
                                new double[]{0.0,0.0, 0.5,Room.size-6,
 			                     1.0,0.0});
-    param[ROBOT_Y_PARAM] = create(3.0, 10.0, true, true,  // robot y
+    param[ROBOT_Y_PARAM] = create(0.0, 5.0, true, true,  // robot y
                                new double[]{0.0,0.0,1.0,0.0});
     param[ROBOT_Z_PARAM] = create(0.0, 5.0, true, true,  // robot z
                                new double[]{0.0,0.0, 0.25,Room.size/2-3, 0.5,0.0, 0.75, -Room.size/2+3,
     										1.0,0.0});
 
-    param[ROBOT_RSELF_PARAM] = create(0.0, 1.0, true, true,  // robot self rotate
+    param[ROBOT_RSELF_PARAM] = create(0.0, 5.0, true, true,  // robot self rotate
                                new double[]{0.0,0.0,
     										1.0,360.0});
     param[CUBE_PARAM] = create(0.0, 30.0, true, true,  // cube rotate
@@ -49,7 +49,7 @@ public class Animation {
     numParams = CUBE_PARAM+1;
     localTime = 0;
     savedLocalTime = 0;
-    repeatTime = 1;
+    repeatTime = 5;
     globalStartTime = getSeconds();
   }
   

@@ -24,7 +24,7 @@ public class Room {
 	{
 		this.gl=gl;
 	
-		floorMesh = ProceduralMeshFactory.createPlane(size,size,(int)(2*size),(int)(2*size),1,1);
+		floorMesh = ProceduralMeshFactory.createPlane(size,size,(int)(4*size),(int)(4*size),1,1);
 		wallMesh= ProceduralMeshFactory.createPlane(wallHeight,size,80,80,1,1);
 		
 		//load texture

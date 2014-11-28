@@ -22,8 +22,9 @@ public class AppScene {
 
 	private int canvaswidth=0, canvasheight=0;
 
-	private Light light0;
+	private Light worldLight;
 	private Light leftEyeSpotlight;
+	private Light ceilingSpotlight1,ceilingSpotlight2;
 	private Camera camera;
 	private Axes axes;
 
@@ -34,7 +35,7 @@ public class AppScene {
 
 	public AppScene(GL2 gl, Camera camera) {
 		animationScene = new Animation();
-		light0 = new Light(GL2.GL_LIGHT0);  // Create a default light
+		worldLight = new Light(GL2.GL_LIGHT0);  // Create a default light
 
 		this.robot1=new Robot();
 		this.room=new Room(gl);
@@ -47,6 +48,15 @@ public class AppScene {
 		leftEyeSpotlight.makeSpotlight(direction, 20f);
 		
 		//create ceiling spotlight
+		float[]posCeiling1={0,0,0,1};
+		ceilingSpotlight1=new Light(GL2.GL_LIGHT2,posCeiling1);
+		float[] direction1 = {0,-1f,0}; // direction from position to origin 
+		ceilingSpotlight1.makeSpotlight(direction1, 20f);
+		
+		float[]posCeiling2={0,0,0,1};
+		ceilingSpotlight2=new Light(GL2.GL_LIGHT3,posCeiling1);
+		float[] direction2 = {0,-1f,0}; // direction from position to origin 
+		ceilingSpotlight2.makeSpotlight(direction1, 20f);
 
 		this.camera = camera;
 		axes = new Axes(8, 8, 8);
@@ -60,7 +70,7 @@ public class AppScene {
 
 
 	public Light getLight() {
-		return light0;
+		return worldLight;
 	}
 
 	public Axes getAxes() {
@@ -96,8 +106,8 @@ public class AppScene {
 		double cz = animationScene.getParam(Animation.ROBOT_Z_PARAM);
 		double r = animationScene.getParam(Animation.ROBOT_RSELF_PARAM);
 
-	//	gl.glTranslated(cx, cy, cz);
-	//	gl.glTranslated(-Room.size/2+3, 3, -2);
+		gl.glTranslated(cx, cy, cz);
+		gl.glTranslated(-Room.size/2+3, 3, -2);
 		
 		gl.glTranslated(0, 3, 0);
 		gl.glRotated(r, 0, 1, 0);
@@ -105,10 +115,10 @@ public class AppScene {
 		gl.glRotated(-45, 0, 1, 0);
 	}
 
-	private void doLight0(GL2 gl) {
+	private void doWorldLight(GL2 gl) {
 		gl.glPushMatrix();
-		gl.glRotated(rotate,0,1,0);
-		light0.use(gl, glut, true);
+		gl.glTranslated(0, Room.wallHeight-3, 0);
+		worldLight.use(gl, glut, true);
 		gl.glPopMatrix();
 	}
 
@@ -119,6 +129,37 @@ public class AppScene {
 		this.leftEyeSpotlight.use(gl, glut, true);
 		gl.glPopMatrix();
 	}
+	
+	private void doCeilingLight(GL2 gl) {
+		gl.glPushMatrix();
+		gl.glTranslated(-8, Room.wallHeight, 0);
+        setCeilingLightProperty(gl);		
+		ceilingSpotlight1.use(gl, glut, true); 
+		glut.glutSolidSphere(0.8, 20,20);
+		gl.glPopMatrix();
+		
+		gl.glPushMatrix();
+		gl.glTranslated(8, Room.wallHeight, 0);
+        setCeilingLightProperty(gl);		
+		ceilingSpotlight2.use(gl, glut, true); 
+		glut.glutSolidSphere(0.8, 20,20);
+		gl.glPopMatrix();
+	}
+	private void setCeilingLightProperty(GL2 gl)
+  	{
+  		  float[] matAmbient = {0.6f, 0.6f, 0.6f, 1.0f};
+  		  float[] matDiffuse = {0.99f, 0.84f, 0, 1.0f};
+  		  float[] matSpecular ={0.6f, 0.6f, 0.6f, 1.0f};
+  		  float[] matShininess = {100.0f};//0~128
+  		  float[] matEmission = {0.99f, 0.84f, 0.8f, 1.0f};
+  		  
+  		  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, matAmbient, 0);
+  		  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, matDiffuse, 0);
+  		  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, 0);
+  		  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
+  		  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, 0);
+
+  	}
 
 
 
@@ -126,8 +167,9 @@ public class AppScene {
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT|GL2.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();
 		camera.view(glu);      // Orientate the camera
-		doLight0(gl);          // Place the default light
+		doWorldLight(gl);          // Place the default light
 		doLeftEyeLight(gl);
+		doCeilingLight(gl);
 
 		if (axes.getSwitchedOn()) 
 			axes.display(gl, glut);
