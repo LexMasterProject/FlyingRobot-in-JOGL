@@ -23,7 +23,7 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
   private Point lastpoint;            // used with mouse routines
   private int width, height;
 
-  private Checkbox checkAxes, checkObjects, checkLight0;
+  private Checkbox checkAxes, checkObjects, checkWorldLight;
   private Button startAnim, pauseAnim, resetScene;
   private boolean continuousAnimation = CONTINUOUS_ANIMATION;
 
@@ -63,13 +63,9 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
     Panel p = new Panel(new GridLayout(2,1));
       Panel p1 = new Panel(new GridLayout(5,1));
         checkAxes = addCheckbox(p1, "axes on", this);
-        checkLight0 = addCheckbox(p1, "Light 0 on", this);
+        checkWorldLight = addCheckbox(p1, "WorldLight on", this);
       p.add(p1);
-      p1 = new Panel(new GridLayout(4,1));
-        Button rotate = new Button("Rotate light");
-        rotate.setActionCommand("Rotate");
-        rotate.addActionListener(this);
-        p1.add(rotate);
+      p1 = new Panel(new GridLayout(3,1));
         startAnim = new Button("Start animation");
         startAnim.setActionCommand("StartAnim");
         startAnim.addActionListener(this);
@@ -110,11 +106,8 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
   }
 
   public void actionPerformed(ActionEvent e) {
-    if(e.getActionCommand().equalsIgnoreCase("rotate")) {
-      scene.incRotate();
-      canvas.repaint();
-    }
-    else if(e.getActionCommand().equalsIgnoreCase("quit")) {
+  
+   if(e.getActionCommand().equalsIgnoreCase("quit")) {
       System.exit(0);
     }
     else if (e.getActionCommand().equalsIgnoreCase("startanim")) {
@@ -134,8 +127,8 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
       scene.getAxes().setSwitchedOn(checkAxes.getState());
       canvas.repaint();
     }
-    else if (source == checkLight0) {
-      scene.getLight().setSwitchedOn(checkLight0.getState());
+    else if (source == checkWorldLight) {
+      scene.getLight().setSwitchedOn(checkWorldLight.getState());
       canvas.repaint();
     }
   }
@@ -149,7 +142,7 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
   private void reset() {
     checkAxes.setState(true);
     scene.getAxes().setSwitchedOn(true);
-    checkLight0.setState(true);
+    checkWorldLight.setState(true);
     scene.getLight().setSwitchedOn(true);
     setContinuousAnimation(CONTINUOUS_ANIMATION);
     scene.reset();

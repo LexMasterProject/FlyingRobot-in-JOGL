@@ -14,7 +14,8 @@ public class Animation {
   public static final int ROBOT_Z_PARAM = 4;
   public static final int ROBOT_RSELF_PARAM = 5;
   
-  public static final int CUBE_PARAM  = 6;
+  public static final int ROBOT_90_UP_R  = 6;
+  public static final int ROBOT_120_UP_R  = 7;
   
   public static final int MAX_PARAMS = 10;
   private Anim[] param;
@@ -44,9 +45,17 @@ public class Animation {
     param[ROBOT_RSELF_PARAM] = create(0.0, 5.0, true, true,  // robot self rotate
                                new double[]{0.0,0.0,
     										1.0,360.0});
-    param[CUBE_PARAM] = create(0.0, 30.0, true, true,  // cube rotate
-                               new double[]{0.0,0.0, 1.0, 360.0});  
-    numParams = CUBE_PARAM+1;
+    param[ROBOT_90_UP_R] = create(0.0, 5.0, true, true,  // 60 rotate
+                               new double[]{0.0,0.0,
+    										0.25,-45.0,
+    										0.75, 45.0,
+    										1.0,0.0}); 
+    param[ROBOT_120_UP_R] = create(0.0, 5.0, true, true,  // 60 rotate
+            new double[]{0.0,0.0,
+							0.25,-60.0,
+							0.75, 60.0,
+							1.0,0.0});  
+    numParams = ROBOT_120_UP_R+1;
     localTime = 0;
     savedLocalTime = 0;
     repeatTime = 5;
@@ -121,19 +130,19 @@ public class Animation {
     return s;
   }
 
-  public static void main(String[] args) {
-    Animation a = new Animation();  
-    System.out.println(a.getParam(a.LIGHT_PARAM));
-    double start = a.getSeconds();
-    double t=start;
-    while (t<start+20) {
-      double ls = a.getSeconds();
-      double lt = ls;
-      while (lt < ls+0.2) lt = a.getSeconds();
-      a.update();    
-      System.out.println(a.localTime + ", " + a.getParam(a.LIGHT_PARAM));
-      t = a.getSeconds();
-    }
-  }
+//  public static void main(String[] args) {
+//    Animation a = new Animation();  
+//    System.out.println(a.getParam(a.LIGHT_PARAM));
+//    double start = a.getSeconds();
+//    double t=start;
+//    while (t<start+20) {
+//      double ls = a.getSeconds();
+//      double lt = ls;
+//      while (lt < ls+0.2) lt = a.getSeconds();
+//      a.update();    
+//      System.out.println(a.localTime + ", " + a.getParam(a.LIGHT_PARAM));
+//      t = a.getSeconds();
+//    }
+//  }
   
 }

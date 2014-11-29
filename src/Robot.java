@@ -25,7 +25,8 @@ public class Robot {
 	private float fingerHeight=0.6f;
 
 	//animate params for robot
-	private double rotateLeftShoulder=0;
+	private double aniRotate90=0;
+	private double aniRotate120=0;
 
 	public Robot()
 	{
@@ -45,19 +46,19 @@ public class Robot {
 			gl.glPushMatrix();
 			drawLeftEye(gl, glut);
 			gl.glPopMatrix();
-
+			//the right parts of body
 			gl.glPushMatrix();
 			drawRightShoulder(gl, glut);
-		  		drawUpArm(gl, glut);
+		  		drawRightUpArm(gl, glut);
 		  			drawElbow(gl, glut);
 		  				drawRightLowArm(gl, glut);
 		  					drawPalm(gl, glut);
 		  						drawThreeFingers(gl, glut);
 		  	gl.glPopMatrix();
-
+		  	//the left parts of body
 		  	gl.glPushMatrix();
 		  	drawLeftShoulder(gl, glut);
-		  		drawUpArm(gl, glut);
+		  		drawLeftUpArm(gl, glut);
 		  			drawElbow(gl, glut);
 		  				drawLeftLowArm(gl, glut);
 		  					drawPalm(gl, glut);
@@ -65,6 +66,17 @@ public class Robot {
 		  	gl.glPopMatrix();
 		 gl.glPopMatrix();
 
+	}
+	
+	/*
+	 * animate robot body
+	 */
+	
+	//update robot animate params
+	public void update(double animateR90,double animateR120)
+	{
+		this.aniRotate90=animateR90;
+		this.aniRotate120=animateR120;
 	}
 	
 	/*
@@ -112,12 +124,33 @@ public class Robot {
 		glut.glutSolidSphere(shoulderRadius, midResolution, midResolution);//shoulders
 	}
 
-	private void drawUpArm(GL2 gl,GLUT glut)
+	private void drawRightUpArm(GL2 gl,GLUT glut)
+	{
+		
+		setUpperArmMaterialProperty(gl);
+		gl.glRotated(30, 0, 1, 0);
+	//	gl.glRotated(this.aniRotate90, 0, 0, 1);
+		gl.glRotated(-30, 0, 1, 0);
+		glut.glutSolidCylinder(upArmRadius, upArmHeight, midResolution, midResolution);//upper arms
+	}
+	private void drawRightLowArm(GL2 gl,GLUT glut)
+	{
+	    gl.glRotatef(90, 0, 1, 0);
+		gl.glRotated(this.aniRotate120, 0, 1, 0);
+		glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, midResolution, midResolution);
+	}
+	
+	private void drawLeftUpArm(GL2 gl,GLUT glut)
 	{
 		setUpperArmMaterialProperty(gl); 
 		glut.glutSolidCylinder(upArmRadius, upArmHeight, midResolution, midResolution);//upper arms
 	}
 
+	private void drawLeftLowArm(GL2 gl,GLUT glut)
+	{
+		gl.glRotatef(-90, 0, 1, 0);//right lower arms
+		glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, midResolution, midResolution);
+	}
 	private void drawLeftShoulder(GL2 gl,GLUT glut)
 	{
 		setUpperArmMaterialProperty(gl);   
@@ -133,16 +166,8 @@ public class Robot {
 		glut.glutSolidSphere(elbowRadius, midResolution, midResolution);
 	}
 	
-	private void drawRightLowArm(GL2 gl,GLUT glut)
-	{
-		gl.glRotatef(90, 0, 1, 0);//right lower arms
-		glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, midResolution, midResolution);
-	}
-	private void drawLeftLowArm(GL2 gl,GLUT glut)
-	{
-		gl.glRotatef(-90, 0, 1, 0);//right lower arms
-		glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, midResolution, midResolution);
-	}
+
+
 	
 	private void drawPalm(GL2 gl,GLUT glut)
 	{

@@ -97,6 +97,9 @@ public class AppScene {
 	public void update() {
 		incRotate();
 		animationScene.update();
+		double animateR90=animationScene.getParam(Animation.ROBOT_120_UP_R);
+		double animateR120=animationScene.getParam(Animation.ROBOT_120_UP_R);
+		robot1.update(animateR90,animateR120);
 
 	}
 	public void transformForRobot(GL2 gl)
