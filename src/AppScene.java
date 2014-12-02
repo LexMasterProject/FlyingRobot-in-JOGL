@@ -14,21 +14,19 @@ public class AppScene {
 
 	private GLU glu = new GLU();
 	private GLUT glut = new GLUT();
-
-	private final double INC_ROTATE=2.0;
-
-	private double rotate=0.0;
-
-
+	
+	private float cutoffForRobotSp=15;
+	
 	private int canvaswidth=0, canvasheight=0;
 
 	private Light worldLight;
-	private Light leftEyeSpotlight;
+	private Light leftEyeSpotlightForR1,rightEyeSpotlightForR1;
+	private Light leftEyeSpotlightForR2,rightEyeSpotlightForR2;
 	private Light ceilingSpotlight1,ceilingSpotlight2;
 	private Camera camera;
 	private Axes axes;
 
-	private Robot robot1;
+	private Robot robot1,robot2;
 	private Room room;
 	private Animation animationScene;
 
@@ -38,25 +36,37 @@ public class AppScene {
 		worldLight = new Light(GL2.GL_LIGHT0);  // Create a default light
 
 		this.robot1=new Robot();
+		this.robot2=new Robot();
 		this.room=new Room(gl);
 
 
-		//create left eye spotlight
+		//create  eye spotlight for robots
 		float[]position={0,0,0,1};
-		leftEyeSpotlight=new Light(GL2.GL_LIGHT1,position);
+		leftEyeSpotlightForR1=new Light(GL2.GL_LIGHT1,position);
 		float[] direction = {1f,-1f,-0.3f}; // direction from position to origin 
-		leftEyeSpotlight.makeSpotlight(direction, 20f);
+		leftEyeSpotlightForR1.makeSpotlight(direction, cutoffForRobotSp);
+		rightEyeSpotlightForR1=new Light(GL2.GL_LIGHT2,position);
+		direction =new float[]{1f,-1f,0.3f};
+		rightEyeSpotlightForR1.makeSpotlight(direction, cutoffForRobotSp);
+		
+		position=new float[]{0,0,0,1};
+		leftEyeSpotlightForR2=new Light(GL2.GL_LIGHT3,position);
+		direction = new float[]{1f,-1f,-0.3f}; // direction from position to origin 
+		leftEyeSpotlightForR2.makeSpotlight(direction, cutoffForRobotSp);
+		rightEyeSpotlightForR2=new Light(GL2.GL_LIGHT4,position);
+		direction =new float[]{1f,-1f,0.3f};
+		rightEyeSpotlightForR2.makeSpotlight(direction, cutoffForRobotSp);
+		
+		
 		
 		//create ceiling spotlight
-		float[]posCeiling1={0,0,0,1};
-		ceilingSpotlight1=new Light(GL2.GL_LIGHT2,posCeiling1);
-		float[] direction1 = {0,-1f,0}; // direction from position to origin 
-		ceilingSpotlight1.makeSpotlight(direction1, 20f);
+		float[]posCeiling={0,0,0,1};
+		float[] directionCeiling = {0,-1f,0}; // direction from position to origin 
+		ceilingSpotlight1=new Light(GL2.GL_LIGHT5,posCeiling);
 		
-		float[]posCeiling2={0,0,0,1};
-		ceilingSpotlight2=new Light(GL2.GL_LIGHT3,posCeiling1);
-		float[] direction2 = {0,-1f,0}; // direction from position to origin 
-		ceilingSpotlight2.makeSpotlight(direction1, 20f);
+		ceilingSpotlight1.makeSpotlight(directionCeiling, 20f);
+		ceilingSpotlight2=new Light(GL2.GL_LIGHT6,posCeiling);
+		ceilingSpotlight2.makeSpotlight(directionCeiling, 20f);
 
 		this.camera = camera;
 		axes = new Axes(8, 8, 8);
@@ -79,12 +89,10 @@ public class AppScene {
 
 	public void reset() {
 		animationScene.reset();
-		rotate=0.0;
+		
 	}
 
-	public void incRotate() {
-		rotate=(rotate+INC_ROTATE)%360;
-	}
+	
 
 	public void startAnimation() {
 		animationScene.startAnimation();
@@ -95,15 +103,55 @@ public class AppScene {
 	}
 
 	public void update() {
-		incRotate();
+	
 		animationScene.update();
+		
+		//update the robot animate params in order to 
+		//animate parts of robot
 		double animateR90=animationScene.getParam(Animation.ROBOT_90_R);
 		double animateR120=animationScene.getParam(Animation.ROBOT_120_R);
 		double animateR60=animationScene.getParam(Animation.ROBOT_60_R);
 		robot1.update(animateR60,animateR90,animateR120);
+		robot2.update(animateR90, animateR120, animateR60);
 
 	}
-	public void transformForRobot(GL2 gl)
+	public void render(GL2 gl) {
+		gl.glClear(GL2.GL_COLOR_BUFFER_BIT|GL2.GL_DEPTH_BUFFER_BIT);
+		gl.glLoadIdentity();
+		camera.view(glu);      // Orientate the camera
+		doWorldLight(gl);          // Place the default light
+		//
+	
+		
+		
+		doCeilingLight(gl);
+
+		if (axes.getSwitchedOn()) 
+			axes.display(gl, glut);
+
+		gl.glPushMatrix();
+		room.display();
+		gl.glPopMatrix();
+		
+		gl.glPushMatrix();
+		transformForRobot1(gl);
+		robot1.display(gl, glut);
+		doEyeLight(robot1,leftEyeSpotlightForR1,rightEyeSpotlightForR1,gl);
+		gl.glPopMatrix();
+		
+		gl.glPushMatrix();
+		transformForRobot2(gl);
+		robot2.display(gl, glut);
+		doEyeLight(robot2, leftEyeSpotlightForR2, rightEyeSpotlightForR2, gl);
+		gl.glPopMatrix();
+	}
+	
+	/*
+	 *transform for robots 
+	 *
+	 */
+	
+	public void transformForRobot1(GL2 gl)
 	{
 		double cx = animationScene.getParam(Animation.ROBOT_X_PARAM);
 		double cy = animationScene.getParam(Animation.ROBOT_Y_PARAM);
@@ -111,14 +159,29 @@ public class AppScene {
 		double r = animationScene.getParam(Animation.RSELF_360_PARAM);
 
 		gl.glTranslated(cx, cy, cz);
-		gl.glTranslated(-Room.size/2+3, 3, -2);
+		gl.glTranslated(-Room.size/2+3, 6, -2);
 		
-		gl.glTranslated(0, 3, 0);
 		gl.glRotated(r, 0, 1, 0);
 		gl.glRotated(45, 1, 0, 0);
 		gl.glRotated(-45, 0, 1, 0);
 	}
+	public void transformForRobot2(GL2 gl)
+	{
+		double cx = animationScene.getParam(Animation.ROBOT_X_PARAM);
+		double cy = animationScene.getParam(Animation.ROBOT1_Y_PARAM);
+		double cz = animationScene.getParam(Animation.ROBOT1_Z_PARAM);
+		double r = animationScene.getParam(Animation.RSELF_360_PARAM);
 
+		gl.glTranslated(cx, cy, cz);
+		gl.glTranslated(-Room.size/2+3, 8, -8);
+		gl.glRotated(r, 0, 1, 0);
+		gl.glRotated(45, 1, 0, 0);
+		gl.glRotated(-45, 0, 1, 0);
+	}
+	
+	/*
+	 * put different light in proper positions
+	 */
 	private void doWorldLight(GL2 gl) {
 		gl.glPushMatrix();
 		gl.glTranslated(0, Room.wallHeight-3,  Room.wallHeight-3);
@@ -126,12 +189,18 @@ public class AppScene {
 		gl.glPopMatrix();
 	}
 
-	private void doLeftEyeLight(GL2 gl) {
-		gl.glPushMatrix();
-		transformForRobot(gl);
-		robot1.transformForLeftEye(gl);
-		this.leftEyeSpotlight.use(gl, glut, true);
-		gl.glPopMatrix();
+	private void doEyeLight(Robot robot,Light leftLight,Light rightLight,GL2 gl) {
+		
+			gl.glPushMatrix();
+			robot.transformForLeftEye(gl);
+			leftLight.use(gl, glut, true);
+			gl.glPopMatrix();
+			
+			gl.glPushMatrix();
+			robot.transformForRightEye(gl);
+			rightLight.use(gl, glut, true);
+			gl.glPopMatrix();
+		
 	}
 	
 	private void doCeilingLight(GL2 gl) {
@@ -149,6 +218,9 @@ public class AppScene {
 		glut.glutSolidSphere(0.8, 20,20);
 		gl.glPopMatrix();
 	}
+
+
+	//set ceiling light outlook
 	private void setCeilingLightProperty(GL2 gl)
   	{
   		  float[] matAmbient = {0.6f, 0.6f, 0.6f, 1.0f};
@@ -164,33 +236,6 @@ public class AppScene {
   		  gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, 0);
 
   	}
-
-
-
-	public void render(GL2 gl) {
-		gl.glClear(GL2.GL_COLOR_BUFFER_BIT|GL2.GL_DEPTH_BUFFER_BIT);
-		gl.glLoadIdentity();
-		camera.view(glu);      // Orientate the camera
-		doWorldLight(gl);          // Place the default light
-		doLeftEyeLight(gl);
-		doCeilingLight(gl);
-
-		if (axes.getSwitchedOn()) 
-			axes.display(gl, glut);
-
-		gl.glPushMatrix();
-		room.display();
-		gl.glPopMatrix();
-		
-		gl.glPushMatrix();
-		transformForRobot(gl);
-		robot1.display(gl, glut);
-		gl.glPopMatrix();
-	}
-
-
-
-
 
 
 

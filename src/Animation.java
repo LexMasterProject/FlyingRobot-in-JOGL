@@ -7,8 +7,8 @@
   
 public class Animation {
 
-  public static final int LIGHT_PARAM = 0;
-  public static final int PLANE_PARAM = 1;
+  public static final int ROBOT1_Y_PARAM = 0;
+  public static final int ROBOT1_Z_PARAM = 1;
   public static final int ROBOT_X_PARAM = 2;
   public static final int ROBOT_Y_PARAM = 3;
   public static final int ROBOT_Z_PARAM = 4;
@@ -33,24 +33,42 @@ public class Animation {
 	  
 
     param = new Anim[MAX_PARAMS];
-    param[LIGHT_PARAM] = create(0.0, 15.0, true, true,   // light rotate
-                                new double[]{0.0,0.0, 0.5,-6.0, 1.0,0.0}); 
-    param[PLANE_PARAM] = create(10.0, 17.0, true, true,  // plane x
-                                new double[]{0.0,0.0, 0.3,0.7, 0.4,1.0, 0.8,0.7, 1.0, 0.0});
+    param[ROBOT1_Y_PARAM] =create(0.0, 5.0, true, true,  // robot y
+            	new double[]{0.0,0.0,
+							0.125,2,
+							0.25,-2,
+							0.6,8,
+							0.7,2,
+							0.875,6,
+							1.0,0.0}); 
+    param[ROBOT1_Z_PARAM] = create(0.0, 5.0, true, true,  // robot z
+            new double[]{0.0,0.0, 
+    					 0.25,Room.size/2,
+    					 0.5,12,
+    					 0.6,6,
+    					 0.75,0,
+    					 0.85,-Room.size/2+8,
+						 1.0,0.0});
+    param[ROBOT_Z_PARAM] = create(0.0, 5.0, true, true,  // robot z
+            new double[]{0.0,0.0, 
+    			0.25,Room.size/2-3,
+    				0.5,2,
+    				0.6,0.0, 
+    				0.75, -Room.size/2+3,
+					1.0,0.0});
+    param[ROBOT_Y_PARAM] = create(0.0, 5.0, true, true,  // robot y
+            new double[]{0.0,0.0,
+							0.125,2,
+							0.25,-2,
+							0.6,-5,
+							0.8,2,
+							0.875,6,
+							1.0,0.0});
     param[ROBOT_X_PARAM] = create(0.0, 5.0, true, true,  // robot x
                                new double[]{0.0,0.0, 0.5,Room.size-6,
 			                     1.0,0.0});
-    param[ROBOT_Y_PARAM] = create(0.0, 5.0, true, true,  // robot y
-                               new double[]{0.0,0.0,
-    										0.125,2,
-    										0.25,-2,
-    										0.5,-5,
-    										0.875,6,
-    										1.0,0.0});
-    param[ROBOT_Z_PARAM] = create(0.0, 5.0, true, true,  // robot z
-                               new double[]{0.0,0.0, 0.25,Room.size/2-3, 0.5,0.0, 0.75, -Room.size/2+3,
-    										1.0,0.0});
-
+   
+   
     param[RSELF_360_PARAM] = create(0.0, 5.0, true, true,  // robot self rotate
                                new double[]{0.0,0.0,
     										1.0,360.0});
