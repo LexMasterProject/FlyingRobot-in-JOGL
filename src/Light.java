@@ -116,7 +116,9 @@ public class Light implements Cloneable {
 						displaySpotlight(gl, glut);
 					}
 					else 
-					displayPosition(gl, glut);
+					{
+					//displayPosition(gl, glut);
+					}
 				}
 			}
 			else displayDirection(gl);

@@ -68,7 +68,17 @@ public class Anim {
     return k1-1;
   }
   
-  private double linearInterpolation(double t, int k1, int k2) {
+  
+  
+  public double getDuration() {
+	return duration;
+}
+
+  public void setDuration(double duration) {
+	this.duration = duration;
+  }
+
+private double linearInterpolation(double t, int k1, int k2) {
     double f1 = keys[k1].getKF();
     double f2 = keys[k2].getKF();
     double fraction = (t-f1)/(f2-f1);
@@ -89,20 +99,21 @@ public class Anim {
     return s;
   }
 
-  public static void main(String[] args) {
-    // assumes keyframe frame numbers are not repeated
-    KeyInfo[] k = new KeyInfo[4];
-    k[0] = new KeyInfo(0.0,1.0);
-    k[1] = new KeyInfo(0.2,10.0);
-    k[2] = new KeyInfo(0.7,20.0);
-    k[3] = new KeyInfo(1.0,22.0);
-    
-    Anim anim = new Anim(3.0, 5.0, true, true, k);
-    
-    for (int i=-5; i<50; ++i) {
-      anim.update(i/5.0);
-      System.out.println("i/10=" + i/5.0 + ", p=" + anim.getCurrValue());
-    }
-  }
+//  public static void main(String[] args) 
+//  {
+//    // assumes keyframe frame numbers are not repeated
+//    KeyInfo[] k = new KeyInfo[4];
+//    k[0] = new KeyInfo(0.0,1.0);
+//    k[1] = new KeyInfo(0.2,10.0);
+//    k[2] = new KeyInfo(0.7,20.0);
+//    k[3] = new KeyInfo(1.0,22.0);
+//    
+//    Anim anim = new Anim(3.0, 5.0, true, true, k);
+//    
+//    for (int i=-5; i<50; ++i) {
+//      anim.update(i/5.0);
+//      System.out.println("i/10=" + i/5.0 + ", p=" + anim.getCurrValue());
+//    }
+//  }
   
 }

@@ -315,7 +315,8 @@ public class ProceduralMeshFactory {
     mesh.setTriangles(triangles);    
 
     // Calc Normals;
-    mesh.calcSmoothNormals();
+     mesh.calcSmoothNormals();
+    
 	
     // Instead of calculating the normals, they could easily be set mathematically,
     // given that it is a cylinder.

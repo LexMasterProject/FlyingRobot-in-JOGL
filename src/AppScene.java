@@ -97,9 +97,10 @@ public class AppScene {
 	public void update() {
 		incRotate();
 		animationScene.update();
-		double animateR90=animationScene.getParam(Animation.ROBOT_120_UP_R);
-		double animateR120=animationScene.getParam(Animation.ROBOT_120_UP_R);
-		robot1.update(animateR90,animateR120);
+		double animateR90=animationScene.getParam(Animation.ROBOT_90_R);
+		double animateR120=animationScene.getParam(Animation.ROBOT_120_R);
+		double animateR60=animationScene.getParam(Animation.ROBOT_60_R);
+		robot1.update(animateR60,animateR90,animateR120);
 
 	}
 	public void transformForRobot(GL2 gl)
@@ -107,20 +108,20 @@ public class AppScene {
 		double cx = animationScene.getParam(Animation.ROBOT_X_PARAM);
 		double cy = animationScene.getParam(Animation.ROBOT_Y_PARAM);
 		double cz = animationScene.getParam(Animation.ROBOT_Z_PARAM);
-		double r = animationScene.getParam(Animation.ROBOT_RSELF_PARAM);
+		double r = animationScene.getParam(Animation.RSELF_360_PARAM);
 
-//		gl.glTranslated(cx, cy, cz);
-//		gl.glTranslated(-Room.size/2+3, 3, -2);
+		gl.glTranslated(cx, cy, cz);
+		gl.glTranslated(-Room.size/2+3, 3, -2);
 		
 		gl.glTranslated(0, 3, 0);
-//		gl.glRotated(r, 0, 1, 0);
-//		gl.glRotated(45, 1, 0, 0);
-//		gl.glRotated(-45, 0, 1, 0);
+		gl.glRotated(r, 0, 1, 0);
+		gl.glRotated(45, 1, 0, 0);
+		gl.glRotated(-45, 0, 1, 0);
 	}
 
 	private void doWorldLight(GL2 gl) {
 		gl.glPushMatrix();
-		gl.glTranslated(0, Room.wallHeight-3, 0);
+		gl.glTranslated(0, Room.wallHeight-3,  Room.wallHeight-3);
 		worldLight.use(gl, glut, true);
 		gl.glPopMatrix();
 	}
@@ -177,9 +178,11 @@ public class AppScene {
 		if (axes.getSwitchedOn()) 
 			axes.display(gl, glut);
 
-		room.display();
 		gl.glPushMatrix();
+		room.display();
+		gl.glPopMatrix();
 		
+		gl.glPushMatrix();
 		transformForRobot(gl);
 		robot1.display(gl, glut);
 		gl.glPopMatrix();

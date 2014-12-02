@@ -4,21 +4,24 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLProfile;
+import javax.media.opengl.glu.GLU;
+import javax.media.opengl.glu.GLUquadric;
 
 import com.jogamp.opengl.util.awt.ImageUtil;
+import com.jogamp.opengl.util.gl2.GLUT;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
 
 public class Room {
-	private Mesh floorMesh,wallMesh;
-	private Render floorCeilingRender,wallRender;
+	private Mesh floorMesh,wallMesh,obCubeMesh;
+	private Render floorCeilingRender,wallRender,obCubeRender;
 	private GL2 gl;
-	private Texture floorTex,wallTex,ceilingTex;
+	private Texture floorTex,wallTex,ceilingTex,obTex;
 	
 	public static final double size=40;
 	public static final double wallHeight=20;
-	
+	private GLU glu = new GLU();
 	
 	public Room(GL2 gl)
 	{
@@ -26,6 +29,9 @@ public class Room {
 	
 		floorMesh = ProceduralMeshFactory.createPlane(size,size,(int)(4*size),(int)(4*size),1,1);
 		wallMesh= ProceduralMeshFactory.createPlane(wallHeight,size,80,80,1,1);
+		obCubeMesh=ProceduralMeshFactory.createHardCube();
+		
+		
 		
 		//load texture
 		floorTex=loadTexture(gl, "floor.jpg");
@@ -34,14 +40,14 @@ public class Room {
 		wallTex=loadTexture(gl, "wall.jpg");
 		wallTex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_REPEAT);
 		wallTex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_REPEAT);
-		
 		ceilingTex=loadTexture(gl, "ceiling.jpg");
+		obTex=loadTexture(gl, "marble.jpg");
+		
 		
 		createRenderObjects();
 
 	}
 	
-
 	
 	private void createRenderObjects()
 	{
@@ -50,13 +56,21 @@ public class Room {
 		
 		wallRender=new Render(wallMesh);
 		wallRender.initialiseDisplayListWithTex(gl);	
+		
+		obCubeRender=new Render(obCubeMesh);
+		obCubeRender.initialiseDisplayListWithTex(gl);	
+		
+		
 	}
+	
+	
 	
 	public void display()
 	{
 		drawFloor();
 		drawWalls();	
 		drawCeiling();
+		drawObstacles();
 	}
 	
 	private void drawCeiling()
@@ -64,10 +78,6 @@ public class Room {
 		ceilingTex.enable(gl);
 		ceilingTex.bind(gl);
 		ceilingTex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
-		
-		gl.glMatrixMode(GL2.GL_TEXTURE); 
-		gl.glLoadIdentity(); 
-		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		
 		gl.glPushMatrix();
 		gl.glTranslated(0, wallHeight, 0);
@@ -85,27 +95,21 @@ public class Room {
 		gl.glMatrixMode(GL2.GL_TEXTURE); 
 		gl.glLoadIdentity(); 
 		gl.glScaled(8,8,8); 
-		
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
-		
-	
-		gl.glPushMatrix();
 		floorCeilingRender.renderDisplayList(gl);
-		gl.glPopMatrix();
 		floorTex.disable(gl);
+		
+		gl.glMatrixMode(GL2.GL_TEXTURE); 
+		gl.glLoadIdentity(); 
+		gl.glMatrixMode(GL2.GL_MODELVIEW);
 	}
 	
 	private void drawWalls()
 	{	
-		gl.glMatrixMode(GL2.GL_TEXTURE); 
-		gl.glLoadIdentity(); 
-	//	gl.glScaled(1, 3, 1);
-		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		wallTex.enable(gl);
 		wallTex.bind(gl);
 		wallTex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
-		
-		gl.glPushMatrix();
+	
 		//draw left wall
 		gl.glPushMatrix();
 		gl.glTranslatef(-(float)size/2, (float)wallHeight/2, 0);
@@ -138,10 +142,71 @@ public class Room {
 		wallRender.renderDisplayList(gl);
 		gl.glPopMatrix();
 		
-		gl.glPopMatrix();
+		
 		
 		wallTex.disable(gl);
 	}
+	
+	private void drawObstacles()
+	{
+		obTex.enable(gl);
+		obTex.bind(gl);
+		obTex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
+		
+		
+		 GLUquadric quadric = glu.gluNewQuadric();
+		 glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL);
+		 glu.gluQuadricTexture(quadric, true);         // texture all objects drawn using this variable
+		 glu.gluQuadricNormals(quadric, GLU.GLU_SMOOTH);
+			  
+				//left 
+				gl.glPushMatrix();
+				gl.glTranslated(-8, 5, -8);
+				gl.glScaled(4, 4, 4);
+				obCubeRender.renderDisplayList(gl);
+				gl.glPopMatrix();
+				//middle
+				gl.glPushMatrix();
+				gl.glTranslated(-6, 2.5, 8);
+				gl.glRotated(30, 0, 1, 0);
+				gl.glScaled(10, 5, 1);
+				obCubeRender.renderDisplayList(gl);
+				gl.glPopMatrix();
+				//right
+				gl.glPushMatrix();
+				gl.glTranslated(10, 5, 0);
+				
+				gl.glScaled(10, 5, 1);
+				obCubeRender.renderDisplayList(gl);
+				gl.glPopMatrix();
+				
+
+				
+				
+				obTex.disable(gl);
+		
+//		//cylinder
+//		 gl.glPushMatrix();
+//		 gl.glTranslated(5, 0, 0);
+//		 glu.gluCylinder(quadric,2.0,2.0,9.0,50,50);
+//		 gl.glPopMatrix();
+//		//disk
+//		 gl.glPushMatrix();
+//		 gl.glTranslated(-5, 1, 0);
+//		 gl.glRotated(-90, 1, 0, 0);
+//		 glu.gluDisk(quadric,0, 1, 50, 50);
+//		 gl.glPopMatrix();
+//		 //sphere
+//		 gl.glPushMatrix();
+//		 glu.gluSphere(quadric, 1f, 15, 20);
+//		 gl.glPopMatrix();
+		//cube
+	
+		
+	
+	}
+	
+
 	
 
 	public Mesh getFloor() {
