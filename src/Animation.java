@@ -36,8 +36,8 @@ public class Animation {
     param[ROBOT1_Y_PARAM] =create(0.0, 5.0, true, true,  // robot y
             	new double[]{0.0,0.0,
 							0.125,2,
-							0.25,-2,
-							0.6,8,
+							0.25,0,
+							0.6,5,
 							0.7,2,
 							0.875,6,
 							1.0,0.0}); 

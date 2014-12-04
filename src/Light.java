@@ -23,6 +23,11 @@ public class Light implements Cloneable {
 	private int index;
 	private float[] position;
 	private float[] ambient;
+	private float indensity;
+	
+
+
+
 	private float[] diffuse;
 	private float[] specular;
 	private boolean switchedOn;
@@ -57,6 +62,34 @@ public class Light implements Cloneable {
 		switchedOn = on;
 	} 
 
+	
+	public float getIndensity() {
+		return indensity;
+	}
+
+	public void setIndensity(int indensity) {
+	
+		this.indensity = (float)indensity/100;
+		System.out.println(this.indensity);
+		this.ambient=new float[]{this.indensity*DEFAULT_AMBIENT[0],this.indensity*DEFAULT_AMBIENT[1],this.indensity*DEFAULT_AMBIENT[2]};
+		this.diffuse=new float[]{this.indensity*WHITE_LIGHT[0],this.indensity*WHITE_LIGHT[1],this.indensity*WHITE_LIGHT[2]};
+		this.specular=new float[]{this.indensity*WHITE_LIGHT[0],this.indensity*WHITE_LIGHT[1],this.indensity*WHITE_LIGHT[2]};
+		
+		
+	}
+	
+	public void setAmbient(float[] ambient) {
+		this.ambient = ambient;
+	}
+
+	public void setDiffuse(float[] diffuse) {
+		this.diffuse = diffuse;
+	}
+
+	public void setSpecular(float[] specular) {
+		this.specular = specular;
+	}
+	
 	public float[] getPosition() {
 		return position.clone();
 	}

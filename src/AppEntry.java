@@ -5,10 +5,18 @@ Last updated: 9 September 2011
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLCanvas;
+
 import com.jogamp.opengl.util.*;
+
 import javax.media.opengl.glu.GLU;
+import javax.swing.JLabel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import com.jogamp.opengl.util.gl2.GLUT;
 
 public class AppEntry extends Frame implements GLEventListener, ActionListener,
@@ -25,8 +33,10 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
 
   private Checkbox checkAxes, checkObjects, checkWorldLight;
   private Button startAnim, pauseAnim, resetScene;
+  private JSlider lightSlider,cameraSlider;
   private boolean continuousAnimation = CONTINUOUS_ANIMATION;
-
+  
+  
   private Camera camera;
   private AppScene scene;
   private GLCanvas canvas;
@@ -64,6 +74,22 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
       Panel p1 = new Panel(new GridLayout(5,1));
         checkAxes = addCheckbox(p1, "axes on", this);
         checkWorldLight = addCheckbox(p1, "WorldLight on", this);
+        JLabel lightLabel= new JLabel("Light Density:");
+        lightSlider=new JSlider();
+        lightSlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				JSlider source=(JSlider)e.getSource();
+				if(!source.getValueIsAdjusting())
+				{
+					scene.setLightIndensity(source.getValue());
+				}
+				
+			}
+		});
+       
+        p1.add(lightLabel);
+        p1.add(lightSlider);
       p.add(p1);
       p1 = new Panel(new GridLayout(3,1));
         startAnim = new Button("Start animation");
@@ -176,7 +202,7 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
 				                            // When turned on, it does slow rendering 
 				                            // See en.wikipedia.org/wiki/Normal_%28geometry%29#Transforming_normals
 				                            // for details of transforming normals.					
-    double radius = 40.0;           // radius of 'camera sphere', i.e. distance from 
+    double radius = 60.0;           // radius of 'camera sphere', i.e. distance from 
 	                                  // world origin
     double theta = Math.toRadians(-90); // theta rotates anticlockwise around y axis
                                     // here, 45 clockwise from x towards z axis
@@ -238,7 +264,7 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
       camera.updateThetaPhi(-dx*2.0f, dy*2.0f);
     }
     else if (e.getModifiers()==MouseEvent.BUTTON3_MASK)
-      camera.updateRadius(-dy);
+      camera.updateRadius(-dy*15);
     
     lastpoint = ms;
   }

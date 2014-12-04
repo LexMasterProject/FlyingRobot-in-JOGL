@@ -72,6 +72,11 @@ public class AppScene {
 		axes = new Axes(8, 8, 8);
 	}
 
+	public void setLightIndensity(int indensity)
+	{
+		worldLight.setIndensity(indensity);
+	}
+	
 	// called from SG1.reshape() if user resizes the window
 	public void setCanvasSize(int w, int h) {
 		canvaswidth=w;
@@ -144,6 +149,10 @@ public class AppScene {
 		robot2.display(gl, glut);
 		doEyeLight(robot2, leftEyeSpotlightForR2, rightEyeSpotlightForR2, gl);
 		gl.glPopMatrix();
+		
+		
+		
+		
 	}
 	
 	/*
