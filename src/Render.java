@@ -73,6 +73,10 @@ public class Render {
   }
 
   public void renderImmediateModeWithTex(GL2 gl) {
+	  /*
+	   *  I declare that this code is my own work 
+	   *  Author: Wei Wuhao <wwei13@sheffield.ac.uk> 
+	   */
 	  	float[] matAmbientDiffuse = {1,1,1, 1.0f};
 	    float[] matSpecular = {0.5f,0.5f,0.5f, 1.0f};
 	    float[] matShininess = {16.0f};

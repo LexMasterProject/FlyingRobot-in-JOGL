@@ -1,11 +1,16 @@
 import javax.media.opengl.GL2;
-
 import com.jogamp.opengl.util.gl2.GLUT;
 
 
+
+/*
+ *  I declare that this code is my own work 
+ *  Author: Wei Wuhao <wwei13@sheffield.ac.uk> 
+ */
 public class Robot {
 
 	//resolution for drawing different parts of robot
+	//mainly use resolution to substitute slice and stacks 
 	private int lowResolution=20;
 	private int midResolution=50;
 	private int highResolution=100;
@@ -24,14 +29,12 @@ public class Robot {
 	private float handElbowRadius=0.25f;
 	private float fingerHeight=0.6f;
 
-	//animate params for robot
+	//animate params for rotating robot arms 
 	private double aniRotate90=0;
-	private double aniRotate120=0;
 	private double aniRotate60=0;
 
 	public Robot()
 	{
-		
 	}
 
     /*
@@ -91,7 +94,6 @@ public void display(GL2 gl,GLUT glut)
 	{
 		this.aniRotate60=animateR60;
 		this.aniRotate90=animateR90;
-		
 	}
 	
 	/*
@@ -134,7 +136,7 @@ public void display(GL2 gl,GLUT glut)
 	private void drawRightShoulder(GL2 gl,GLUT glut)
 	{
 		setUpperArmMaterialProperty(gl); 
-		gl.glRotatef(-60, 0, 1, 0);//right
+		gl.glRotatef(-60, 0, 1, 0);
 		gl.glTranslatef(0, 0,this.headRadius);
 		glut.glutSolidSphere(shoulderRadius, midResolution, midResolution);//shoulders
 	}
@@ -163,7 +165,7 @@ public void display(GL2 gl,GLUT glut)
 
 	private void drawLeftLowArm(GL2 gl,GLUT glut)
 	{
-		gl.glRotatef(-90, 0, 1, 0);//right lower arms
+		gl.glRotatef(-90, 0, 1, 0);
 		gl.glRotated(this.aniRotate60, 1, 0, 0);
 		glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, midResolution, midResolution);
 	}
@@ -232,8 +234,6 @@ public void display(GL2 gl,GLUT glut)
 		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
 		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, 0);
 	}
-
-
 
 	private void setHeadMaterialProperty(GL2 gl)
 	{

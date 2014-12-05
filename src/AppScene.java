@@ -1,8 +1,7 @@
 /*
-Author: Steve Maddock
-Last updated: 24 October 2013
+ *  I declare that this code is my own work 
+ *  Author: Wei Wuhao <wwei13@sheffield.ac.uk> 
  */
-
 
 
 import javax.media.opengl.*;

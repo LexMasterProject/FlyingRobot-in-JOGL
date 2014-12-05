@@ -31,7 +31,7 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
   private Point lastpoint;            // used with mouse routines
   private int width, height;
 
-  private Checkbox checkAxes, checkObjects, checkWorldLight,checkCeilingLight;
+  private Checkbox checkAxes, checkObjects,checkCeilingLight;
   private Button startAnim, pauseAnim, resetScene;
   private JSlider lightSlider,cameraSlider;
   private boolean continuousAnimation = CONTINUOUS_ANIMATION;
@@ -75,7 +75,6 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
         checkAxes = addCheckbox(p1, "axes on", this);
         checkAxes.setState(false);
         checkCeilingLight=addCheckbox(p1, "CeilingLight", this);
-        checkWorldLight = addCheckbox(p1, "WorldLight on", this);
         JLabel lightLabel= new JLabel("WorldLight Density:");
         lightSlider=new JSlider();
         lightSlider.addChangeListener(new ChangeListener() {
@@ -156,10 +155,6 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
       scene.getAxes().setSwitchedOn(checkAxes.getState());
       canvas.repaint();
     }
-    else if (source == checkWorldLight) {
-      scene.getLight().setSwitchedOn(checkWorldLight.getState());
-      canvas.repaint();
-    }
     else if (source == checkCeilingLight) {
         (scene.getCeilingLight()[0]).setSwitchedOn(checkCeilingLight.getState());
         (scene.getCeilingLight()[1]).setSwitchedOn(checkCeilingLight.getState());
@@ -176,7 +171,6 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
   private void reset() {
     checkAxes.setState(true);
     scene.getAxes().setSwitchedOn(true);
-    checkWorldLight.setState(true);
     scene.getLight().setSwitchedOn(true);
     setContinuousAnimation(CONTINUOUS_ANIMATION);
     scene.reset();
@@ -210,7 +204,7 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
 				                            // When turned on, it does slow rendering 
 				                            // See en.wikipedia.org/wiki/Normal_%28geometry%29#Transforming_normals
 				                            // for details of transforming normals.					
-    double radius = 40.0;           // radius of 'camera sphere', i.e. distance from 
+    double radius = 50.0;           // radius of 'camera sphere', i.e. distance from 
 	                                  // world origin
     double theta = Math.toRadians(-90); // theta rotates anticlockwise around y axis
                                     // here, 45 clockwise from x towards z axis

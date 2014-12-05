@@ -18,7 +18,7 @@ public class Axes {
    * Constructor.
    */
   public Axes(double xLength, double yLength, double zLength) {
-    switchedOn = true;
+    switchedOn = false;
     this.xLength = xLength;
 	this.yLength = yLength;
 	this.zLength = zLength;

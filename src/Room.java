@@ -12,7 +12,10 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
-
+/*
+ *  I declare that this code is my own work 
+ *  Author: Wei Wuhao <wwei13@sheffield.ac.uk> 
+ */
 public class Room {
 	private Mesh floorMesh,wallMesh,obCubeMesh;
 	private Render floorCeilingRender,wallRender,obCubeRender;
@@ -179,30 +182,7 @@ public class Room {
 				gl.glScaled(10, 5, 1);
 				obCubeRender.renderDisplayList(gl);
 				gl.glPopMatrix();
-				
-
-				
-				
 				obTex.disable(gl);
-		
-//		//cylinder
-//		 gl.glPushMatrix();
-//		 gl.glTranslated(5, 0, 0);
-//		 glu.gluCylinder(quadric,2.0,2.0,9.0,50,50);
-//		 gl.glPopMatrix();
-//		//disk
-//		 gl.glPushMatrix();
-//		 gl.glTranslated(-5, 1, 0);
-//		 gl.glRotated(-90, 1, 0, 0);
-//		 glu.gluDisk(quadric,0, 1, 50, 50);
-//		 gl.glPopMatrix();
-//		 //sphere
-//		 gl.glPushMatrix();
-//		 glu.gluSphere(quadric, 1f, 15, 20);
-//		 gl.glPopMatrix();
-		//cube
-	
-		
 	
 	}
 	

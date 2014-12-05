@@ -107,6 +107,10 @@ public class Animation {
   
   private void initAfterDurationAction()
   {
+	  /*
+	   *  I declare that this code is my own work 
+	   *  Author: Wei Wuhao <wwei13@sheffield.ac.uk> 
+	   */
 	  repeatAfterDuration=new boolean[numParams];
 	  for (int i = 0; i < repeatAfterDuration.length; i++) {
 			repeatAfterDuration[i]=false;
@@ -158,6 +162,10 @@ public class Animation {
       savedLocalTime = 0;
     }  
     for (int i=0; i<numParams; ++i) {
+    	/*
+    	 *  I declare that this code is my own work 
+    	 *  Author: Wei Wuhao <wwei13@sheffield.ac.uk> 
+    	 */
     	if(repeatAfterDuration[i])
     	{
     		param[i].update(localTime%param[i].getDuration());
