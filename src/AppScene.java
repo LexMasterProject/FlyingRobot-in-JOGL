@@ -167,11 +167,11 @@ public class AppScene {
 		double cz = animationScene.getParam(Animation.ROBOT_Z_PARAM);
 		double r = animationScene.getParam(Animation.RSELF_360_PARAM);
 
-//		gl.glTranslated(cx, cy, cz);
-//		gl.glTranslated(-Room.size/2+3, 6, -2);
-//		
-//		gl.glRotated(r, 0, 1, 0);
-//		gl.glRotated(45, 1, 0, 0);
+		gl.glTranslated(cx, cy, cz);
+		gl.glTranslated(-Room.size/2+3, 6, -2);
+		
+		gl.glRotated(r, 0, 1, 0);
+		gl.glRotated(45, 1, 0, 0);
 		gl.glRotated(-45, 0, 1, 0);
 	}
 	public void transformForRobot2(GL2 gl)
