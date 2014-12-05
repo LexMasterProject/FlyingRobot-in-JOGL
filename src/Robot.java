@@ -134,7 +134,7 @@ public void display(GL2 gl,GLUT glut)
 	private void drawRightShoulder(GL2 gl,GLUT glut)
 	{
 		setUpperArmMaterialProperty(gl); 
-		gl.glRotatef(-60, 0, 1, 0);//right
+	    gl.glRotatef(-45, 0, 1, 0);//right
 		gl.glTranslatef(0, 0,this.headRadius);
 		glut.glutSolidSphere(shoulderRadius, midResolution, midResolution);//shoulders
 	}
@@ -144,7 +144,7 @@ public void display(GL2 gl,GLUT glut)
 		
 		setUpperArmMaterialProperty(gl);
 
-		gl.glRotated(this.aniRotate60, 0, 1, 0);
+	//	gl.glRotated(this.aniRotate60, 0, 1, 0);
 		glut.glutSolidCylinder(upArmRadius, upArmHeight, midResolution, midResolution);//upper arms
 	}
 	private void drawRightLowArm(GL2 gl,GLUT glut)

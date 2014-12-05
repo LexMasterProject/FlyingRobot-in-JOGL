@@ -70,7 +70,7 @@ public class Room {
 		drawFloor();
 		drawWalls();	
 		drawCeiling();
-		drawObstacles();
+		//drawObstacles();
 	}
 	
 	private void drawCeiling()

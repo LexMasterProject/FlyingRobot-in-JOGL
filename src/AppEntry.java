@@ -202,7 +202,7 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
 				                            // When turned on, it does slow rendering 
 				                            // See en.wikipedia.org/wiki/Normal_%28geometry%29#Transforming_normals
 				                            // for details of transforming normals.					
-    double radius = 60.0;           // radius of 'camera sphere', i.e. distance from 
+    double radius = 10.0;           // radius of 'camera sphere', i.e. distance from 
 	                                  // world origin
     double theta = Math.toRadians(-90); // theta rotates anticlockwise around y axis
                                     // here, 45 clockwise from x towards z axis
