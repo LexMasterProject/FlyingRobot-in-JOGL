@@ -87,6 +87,14 @@ public class AppScene {
 	public Light getLight() {
 		return worldLight;
 	}
+	
+	public Light[] getCeilingLight()
+	{
+		Light[] ceilingLights= new Light[2];
+		ceilingLights[0]=this.ceilingSpotlight1;
+		ceilingLights[1]=this.ceilingSpotlight2;
+		return ceilingLights;
+	}
 
 	public Axes getAxes() {
 		return axes;
@@ -114,10 +122,9 @@ public class AppScene {
 		//update the robot animate params in order to 
 		//animate parts of robot
 		double animateR90=animationScene.getParam(Animation.ROBOT_90_R);
-		double animateR120=animationScene.getParam(Animation.ROBOT_120_R);
 		double animateR60=animationScene.getParam(Animation.ROBOT_60_R);
-		robot1.update(animateR60,animateR90,animateR120);
-		robot2.update(animateR90, animateR120, animateR60);
+		robot1.update(animateR60,animateR90);
+		robot2.update(animateR90, animateR60);
 
 	}
 	public void render(GL2 gl) {
@@ -126,9 +133,6 @@ public class AppScene {
 		camera.view(glu);      // Orientate the camera
 		doWorldLight(gl);          // Place the default light
 		//
-	
-		
-		
 		doCeilingLight(gl);
 
 		if (axes.getSwitchedOn()) 
@@ -176,7 +180,7 @@ public class AppScene {
 	}
 	public void transformForRobot2(GL2 gl)
 	{
-		double cx = animationScene.getParam(Animation.ROBOT_X_PARAM);
+		double cx = animationScene.getParam(Animation.ROBOT1_X_PARAM);
 		double cy = animationScene.getParam(Animation.ROBOT1_Y_PARAM);
 		double cz = animationScene.getParam(Animation.ROBOT1_Z_PARAM);
 		double r = animationScene.getParam(Animation.RSELF_360_PARAM);

@@ -15,8 +15,8 @@ public class Animation {
   public static final int RSELF_360_PARAM = 5;
   
   public static final int ROBOT_60_R  = 6;
-  public static final int ROBOT_90_R  = 7;
-  public static final int ROBOT_120_R  = 8;
+  public static final int ROBOT_90_R  = 8;
+  public static final int ROBOT1_X_PARAM  = 7;
   
   public static final int MAX_PARAMS = 10;
   private Anim[] param;
@@ -49,6 +49,12 @@ public class Animation {
     					 0.75,0,
     					 0.85,-Room.size/2+8,
 						 1.0,0.0});
+    
+    param[ROBOT1_X_PARAM] = create(0.0, 5.0, true, true,  // robot x
+            new double[]{0.0,0.0, 0.7,Room.size-6,
+    					0.75,Room.size-8,
+              1.0,0.0});
+   
     param[ROBOT_Z_PARAM] = create(0.0, 5.0, true, true,  // robot z
             new double[]{0.0,0.0, 
     			0.25,Room.size/2-3,
@@ -67,7 +73,8 @@ public class Animation {
     param[ROBOT_X_PARAM] = create(0.0, 5.0, true, true,  // robot x
                                new double[]{0.0,0.0, 0.5,Room.size-6,
 			                     1.0,0.0});
-   
+    
+    
    
     param[RSELF_360_PARAM] = create(0.0, 5.0, true, true,  // robot self rotate
                                new double[]{0.0,0.0,
@@ -83,12 +90,8 @@ public class Animation {
     										0.25,-45.0,
     										0.75, 45.0,
     										1.0,0.0}); 
-    param[ROBOT_120_R] = create(0.0, 0.5, true, true,  // 60 rotate
-            new double[]{0.0,0.0,
-							0.25,-60.0,
-							0.75, 60.0,
-							1.0,0.0});  
-    numParams = ROBOT_120_R+1;
+   
+    numParams = ROBOT_90_R+1;
 	
     /*
      * indicate whether the Anim should stop or restart 
@@ -110,7 +113,7 @@ public class Animation {
 	  }
 	  repeatAfterDuration[ROBOT_60_R]=true;
 	  repeatAfterDuration[ROBOT_90_R]=true;
-	  repeatAfterDuration[ROBOT_120_R]=true;
+	  repeatAfterDuration[ROBOT1_X_PARAM]=true;
 	  
   }
   

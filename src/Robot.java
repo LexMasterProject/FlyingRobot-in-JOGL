@@ -87,11 +87,11 @@ public void display(GL2 gl,GLUT glut)
 }
 	
 	//update robot animate params
-	public void update(double animateR60,double animateR90,double animateR120)
+	public void update(double animateR60,double animateR90)
 	{
 		this.aniRotate60=animateR60;
 		this.aniRotate90=animateR90;
-		this.aniRotate120=animateR120;
+		
 	}
 	
 	/*
@@ -150,14 +150,14 @@ public void display(GL2 gl,GLUT glut)
 	private void drawRightLowArm(GL2 gl,GLUT glut)
 	{
 		gl.glRotatef(90, 0, 1, 0);
-		gl.glRotated(this.aniRotate60, 1, 0, 0);
+		gl.glRotated(this.aniRotate90, 1, 0, 0);
 		glut.glutSolidCylinder(lowerArmRadius, lowerArmHeight, midResolution, midResolution);
 	}
 	
 	private void drawLeftUpArm(GL2 gl,GLUT glut)
 	{
 		setUpperArmMaterialProperty(gl); 
-		gl.glRotated(this.aniRotate60, 0, 1, 0);
+		gl.glRotated(this.aniRotate90, 0, 1, 0);
 		glut.glutSolidCylinder(upArmRadius, upArmHeight, midResolution, midResolution);//upper arms
 	}
 
