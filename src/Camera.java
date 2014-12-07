@@ -79,6 +79,13 @@ public class Camera {
 		              getUpVecX(), getUpVecY(), getUpVecZ());
   }
   
+  public void changeView(GLU glu,double[]eyePos,double[]targetPos)
+  {
+	  glu.gluLookAt(eyePos[0], eyePos[1], eyePos[2],
+			  targetPos[0], targetPos[1], targetPos[2], 
+	             0, 1, 0);
+  }
+  
   public String toString() {
     return "["+eye[0]+", "+eye[1]+", "+eye[2]+"]";
   }

@@ -12,7 +12,12 @@ import javax.media.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.*;
 
 import javax.media.opengl.glu.GLU;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -31,9 +36,10 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
   private Point lastpoint;            // used with mouse routines
   private int width, height;
 
-  private Checkbox checkAxes, checkObjects,checkCeilingLight;
-  private Button startAnim, pauseAnim, resetScene;
-  private JSlider lightSlider,cameraSlider;
+  private JCheckBox checkAxes, checkCeilingLight;
+  private JButton startAnim, pauseAnim, resetScene,changeRobot2View,changeRobot1View;
+  private JSlider lightSlider;
+  private ButtonGroup btnGroup;
   private boolean continuousAnimation = CONTINUOUS_ANIMATION;
   
   
@@ -70,11 +76,11 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
         fileMenu.add(quitItem);
     menuBar.add(fileMenu);
 
-    Panel p = new Panel(new GridLayout(2,1));
-      Panel p1 = new Panel(new GridLayout(5,1));
-        checkAxes = addCheckbox(p1, "axes on", this);
-        checkAxes.setState(false);
-        checkCeilingLight=addCheckbox(p1, "CeilingLight", this);
+    JPanel p = new JPanel(new GridLayout(2,1));
+      JPanel p1 = new JPanel(new GridLayout(4,1));
+        checkAxes = addJCheckbox(p1, "axes on", this);
+        checkAxes.setSelected(false);
+        checkCeilingLight=addJCheckbox(p1, "CeilingLight", this);
         JLabel lightLabel= new JLabel("WorldLight Density:");
         lightSlider=new JSlider();
         lightSlider.addChangeListener(new ChangeListener() {
@@ -92,16 +98,21 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
         p1.add(lightLabel);
         p1.add(lightSlider);
       p.add(p1);
-      p1 = new Panel(new GridLayout(3,1));
-        startAnim = new Button("Start animation");
+      p1 = new JPanel(new GridLayout(6,1));
+        btnGroup=new ButtonGroup();
+        addRadioButton(p1, "WorldView", true, AppScene.WORLD_VIEW);
+        addRadioButton(p1, "ChangeRobot1View", true, AppScene.ROBOT1_VIEW);
+        addRadioButton(p1, "ChangeRobot2View", true, AppScene.ROBOT2_VIEW);
+      
+        startAnim = new JButton("Start animation");
         startAnim.setActionCommand("StartAnim");
         startAnim.addActionListener(this);
         p1.add(startAnim);
-        pauseAnim = new Button("Pause animation");
+        pauseAnim = new JButton("Pause animation");
         pauseAnim.setActionCommand("PauseAnim");
         pauseAnim.addActionListener(this);
         p1.add(pauseAnim);
-        resetScene = new Button("Reset scene");
+        resetScene = new JButton("Reset scene");
         resetScene.setActionCommand("ResetScene");
         resetScene.addActionListener(this);
         p1.add(resetScene);
@@ -119,15 +130,28 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
     animator.start();
   }
 
+  private void addRadioButton(JPanel p,String name,boolean bool,int info)
+  {
+	  JRadioButton btn=new JRadioButton(name, bool);
+	  btnGroup.add(btn);
+	  p.add(btn);
+	  ActionListener listener=new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			scene.changeView(info);
+		}
+	};
+	btn.addActionListener(listener);
+  }
 
   // In the AWT classes a Checkbox is used in conjunction with
   // an ItemListener.
   // If the Swing classes were used, a JCheckBox is used in conjunction with 
   // an ActionListener.
   
-  private Checkbox addCheckbox(Panel p, String s, ItemListener a) {
-    Checkbox c = new Checkbox(s, true);
-    c.addItemListener(a);
+  private JCheckBox addJCheckbox(JPanel p, String s, ActionListener a) {
+    JCheckBox c = new JCheckBox(s, true);
+    c.addActionListener(a);
     p.add(c);
     return c;
   }
@@ -146,20 +170,43 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
     else if (e.getActionCommand().equalsIgnoreCase("resetscene")) {
       reset();
     }
+    else if (e.getActionCommand().equalsIgnoreCase("changerobot2view")) {
+    	  if(scene.getViewIndex()!=AppScene.ROBOT2_VIEW)
+    	  {
+        	scene.changeView(AppScene.ROBOT2_VIEW);  
+        	changeRobot2View.setText("BackToWorldView");
+    	  }
+     }
+    else if (e.getActionCommand().equalsIgnoreCase("changerobot1view")) {
+    	
+    	 if(scene.getViewIndex()!=AppScene.ROBOT1_VIEW)
+   	  	{
+       	scene.changeView(AppScene.ROBOT1_VIEW);  
+       	changeRobot1View.setText("BackToWorldView");
+   	  	}
+     }
+   
+
+   
+   // for jcheckbox
+   Object source= e.getSource();
+   if (source == checkAxes) {
+	      scene.getAxes().setSwitchedOn(checkAxes.isSelected());
+	      canvas.repaint();
+	    }
+	    else if (source == checkCeilingLight) {
+	        (scene.getCeilingLight()[0]).setSwitchedOn(checkCeilingLight.isSelected());
+	        (scene.getCeilingLight()[1]).setSwitchedOn(checkCeilingLight.isSelected());
+	        canvas.repaint();
+	      }
   
   }
+  
+
 
   public void itemStateChanged(ItemEvent e) {
     Object source = e.getSource();
-    if (source == checkAxes) {
-      scene.getAxes().setSwitchedOn(checkAxes.getState());
-      canvas.repaint();
-    }
-    else if (source == checkCeilingLight) {
-        (scene.getCeilingLight()[0]).setSwitchedOn(checkCeilingLight.getState());
-        (scene.getCeilingLight()[1]).setSwitchedOn(checkCeilingLight.getState());
-        canvas.repaint();
-      }
+  
   }
   
   private void setContinuousAnimation(boolean b) {
@@ -169,7 +216,7 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
   }
 
   private void reset() {
-    checkAxes.setState(true);
+    checkAxes.setSelected(false);
     scene.getAxes().setSwitchedOn(true);
     scene.getLight().setSwitchedOn(true);
     setContinuousAnimation(CONTINUOUS_ANIMATION);

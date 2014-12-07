@@ -24,10 +24,16 @@ public class AppScene {
 	private Light ceilingSpotlight1,ceilingSpotlight2;
 	private Camera camera;
 	private Axes axes;
+	
+	public static final int WORLD_VIEW=0,ROBOT1_VIEW=1,ROBOT2_VIEW=2;
+	private int viewIndex=0;
 
 	private Robot robot1,robot2;
 	private Room room;
 	private Animation animationScene;
+	
+	private double []eyePos;
+	private double []targetPos;
 
 
 	public AppScene(GL2 gl, Camera camera) {
@@ -55,6 +61,9 @@ public class AppScene {
 		rightEyeSpotlightForR2=new Light(GL2.GL_LIGHT4,position);
 		direction =new float[]{1f,-1f,0.3f};
 		rightEyeSpotlightForR2.makeSpotlight(direction, cutoffForRobotSp);
+		
+		
+		eyePos=new double[]{0,0,0};
 		
 		
 		
@@ -104,7 +113,44 @@ public class AppScene {
 		
 	}
 
-	
+	public void changeView(int view)
+	{
+		viewIndex=view;	
+		updateView();
+	}
+	public  int getViewIndex()
+	{
+		return this.viewIndex;
+	}
+	private void updateView()
+	{
+		if (viewIndex!=WORLD_VIEW) {
+			if (viewIndex==ROBOT1_VIEW) {
+				double cx = animationScene.getParam(Animation.ROBOT_X_PARAM);
+				double cy = animationScene.getParam(Animation.ROBOT_Y_PARAM);
+				double cz = animationScene.getParam(Animation.ROBOT_Z_PARAM);
+				double r = animationScene.getParam(Animation.RSELF_360_PARAM);
+				double radius=7;
+				eyePos=new double[]{cx-Room.size/2+3,cy+10,cz-2};
+				targetPos=new double[]{cx-Room.size/2+3+radius*Math.sin(Math.toRadians(r)),
+				cy+2,cz+radius*Math.cos(Math.toRadians(r))};
+			}
+			else
+			{
+				//update robot camera
+				
+				double cx = animationScene.getParam(Animation.ROBOT1_X_PARAM);
+				double cy = animationScene.getParam(Animation.ROBOT1_Y_PARAM);
+				double cz = animationScene.getParam(Animation.ROBOT1_Z_PARAM);
+				double r = animationScene.getParam(Animation.RSELF_360_PARAM);
+				double radius=10;
+				eyePos=new double[]{cx-Room.size/2+3,cy+12,cz-8};
+				targetPos=new double[]{cx-Room.size/2+3+radius*Math.sin(Math.toRadians(r)),
+				cy+2,cz+radius*Math.cos(Math.toRadians(r))};
+			}
+			
+		}
+	}
 
 	public void startAnimation() {
 		animationScene.startAnimation();
@@ -123,15 +169,26 @@ public class AppScene {
 		double animateR90=animationScene.getParam(Animation.ROBOT_90_R);
 		double animateR60=animationScene.getParam(Animation.ROBOT_60_R);
 		robot1.update(animateR60,animateR90);
-		robot2.update(animateR90, animateR60);
+		robot2.update(-animateR90, -animateR60);
+		updateView();
 
 	}
 	public void render(GL2 gl) {
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT|GL2.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();
-		camera.view(glu);      // Orientate the camera
-		doWorldLight(gl);          // Place the default light
-		//
+		// set view camera
+		if(viewIndex==ROBOT1_VIEW||viewIndex==ROBOT2_VIEW)
+		{
+			camera.changeView(glu, eyePos, targetPos);
+		}
+		else
+		{
+			camera.view(glu);      
+		}
+		
+
+		
+		doWorldLight(gl);          
 		doCeilingLight(gl);
 
 		if (axes.getSwitchedOn()) 
@@ -171,12 +228,15 @@ public class AppScene {
 		double r = animationScene.getParam(Animation.RSELF_360_PARAM);
 
 		gl.glTranslated(cx, cy, cz);
+		
+		
 		gl.glTranslated(-Room.size/2+3, 6, -2);
 		
 		gl.glRotated(r, 0, 1, 0);
 		gl.glRotated(45, 1, 0, 0);
 		gl.glRotated(-45, 0, 1, 0);
 	}
+	
 	public void transformForRobot2(GL2 gl)
 	{
 		double cx = animationScene.getParam(Animation.ROBOT1_X_PARAM);
@@ -184,6 +244,8 @@ public class AppScene {
 		double cz = animationScene.getParam(Animation.ROBOT1_Z_PARAM);
 		double r = animationScene.getParam(Animation.RSELF_360_PARAM);
 
+		
+						
 		gl.glTranslated(cx, cy, cz);
 		gl.glTranslated(-Room.size/2+3, 8, -8);
 		gl.glRotated(r, 0, 1, 0);
