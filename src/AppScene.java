@@ -124,20 +124,24 @@ public class AppScene {
 	}
 	private void updateView()
 	{
+		/*
+		 *   1 the eye is following the robot
+		 *   2 the target pos is a ray shooted from the eye which can be
+		 *     got by sin and cos on the rotation about the robot
+		 */
 		if (viewIndex!=WORLD_VIEW) {
 			if (viewIndex==ROBOT1_VIEW) {
 				double cx = animationScene.getParam(Animation.ROBOT_X_PARAM);
 				double cy = animationScene.getParam(Animation.ROBOT_Y_PARAM);
 				double cz = animationScene.getParam(Animation.ROBOT_Z_PARAM);
 				double r = animationScene.getParam(Animation.RSELF_360_PARAM);
-				double radius=7;
+				double radius=10;
 				eyePos=new double[]{cx-Room.size/2+3,cy+10,cz-2};
 				targetPos=new double[]{cx-Room.size/2+3+radius*Math.sin(Math.toRadians(r)),
 				cy+2,cz+radius*Math.cos(Math.toRadians(r))};
 			}
 			else
 			{
-				//update robot camera
 				
 				double cx = animationScene.getParam(Animation.ROBOT1_X_PARAM);
 				double cy = animationScene.getParam(Animation.ROBOT1_Y_PARAM);
@@ -184,34 +188,31 @@ public class AppScene {
 		else
 		{
 			camera.view(glu);      
-		}
-		
-
-		
+		}		
 		doWorldLight(gl);          
 		doCeilingLight(gl);
 
 		if (axes.getSwitchedOn()) 
 			axes.display(gl, glut);
 
+		//draw room
 		gl.glPushMatrix();
 		room.display();
 		gl.glPopMatrix();
 		
+		//draw robot1
 		gl.glPushMatrix();
 		transformForRobot1(gl);
 		robot1.display(gl, glut);
 		doEyeLight(robot1,leftEyeSpotlightForR1,rightEyeSpotlightForR1,gl);
 		gl.glPopMatrix();
 		
+		//draw robot2
 		gl.glPushMatrix();
 		transformForRobot2(gl);
 		robot2.display(gl, glut);
 		doEyeLight(robot2, leftEyeSpotlightForR2, rightEyeSpotlightForR2, gl);
 		gl.glPopMatrix();
-		
-		
-		
 		
 	}
 	
