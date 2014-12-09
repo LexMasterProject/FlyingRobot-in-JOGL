@@ -16,6 +16,7 @@ public class AppScene {
 	
 	private float cutoffForRobotSp=15;
 	
+	@SuppressWarnings("unused")
 	private int canvaswidth=0, canvasheight=0;
 
 	private Light worldLight;

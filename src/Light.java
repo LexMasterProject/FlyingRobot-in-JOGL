@@ -183,22 +183,22 @@ public class Light implements Cloneable {
 		gl.glEnable(GL2.GL_LIGHTING);
 	}
 
-	private void displayPosition(GL2 gl, GLUT glut) {
-		float[] matAmbientDiffuse = {0.1f, 0.1f, 0.1f, 1.0f};
-		float[] matSpecular = {0.0f, 0.0f, 0.0f, 0.0f};
-		float[] matShininess = {1.0f};
-		float[] matEmission = {0.9f, 0.9f, 0.9f, 1.0f};
-
-		// use glMaterialfv. There is no glMaterialdv
-		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT_AND_DIFFUSE, matAmbientDiffuse, 0);
-		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, 0);
-		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
-		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, 0);
-		gl.glPushMatrix();
-		gl.glTranslated(position[0], position[1], position[2]);
-		glut.glutSolidSphere(0.2, 10,10);
-		gl.glPopMatrix();
-	}
+//	private void displayPosition(GL2 gl, GLUT glut) {
+//		float[] matAmbientDiffuse = {0.1f, 0.1f, 0.1f, 1.0f};
+//		float[] matSpecular = {0.0f, 0.0f, 0.0f, 0.0f};
+//		float[] matShininess = {1.0f};
+//		float[] matEmission = {0.9f, 0.9f, 0.9f, 1.0f};
+//
+//		// use glMaterialfv. There is no glMaterialdv
+//		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT_AND_DIFFUSE, matAmbientDiffuse, 0);
+//		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, 0);
+//		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
+//		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, 0);
+//		gl.glPushMatrix();
+//		gl.glTranslated(position[0], position[1], position[2]);
+//		glut.glutSolidSphere(0.2, 10,10);
+//		gl.glPopMatrix();
+//	}
 
 	private void displayDirection(GL2 gl) {
 		gl.glDisable(GL2.GL_LIGHTING);

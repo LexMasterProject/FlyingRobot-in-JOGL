@@ -16,7 +16,6 @@ public class Camera {
   private double theta, phi, radius;
 
   private double[] eye = new double[3];
-  private double[] lookAt = new double[3];
   private double[] upvec = new double[3];
   
   /**

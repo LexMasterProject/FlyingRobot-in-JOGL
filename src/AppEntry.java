@@ -11,7 +11,6 @@ import javax.media.opengl.awt.GLCanvas;
 
 import com.jogamp.opengl.util.*;
 
-import javax.media.opengl.glu.GLU;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -22,10 +21,10 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import com.jogamp.opengl.util.gl2.GLUT;
 
+@SuppressWarnings("serial")
 public class AppEntry extends Frame implements GLEventListener, ActionListener,
-                                           ItemListener, MouseMotionListener {
+                                           MouseMotionListener {
 
   public final static int WIDTH=800;
   public final static int HEIGHT=500;
@@ -204,10 +203,7 @@ public class AppEntry extends Frame implements GLEventListener, ActionListener,
   
 
 
-  public void itemStateChanged(ItemEvent e) {
-    Object source = e.getSource();
-  
-  }
+ 
   
   private void setContinuousAnimation(boolean b) {
     continuousAnimation = b;
