@@ -232,8 +232,8 @@ public class AppScene {
 		gl.glTranslated(cx, cy, cz);
 		
 		
-		//gl.glTranslated(-Room.size/2+3, 6, -2);
-		gl.glTranslated(0, 3, 0);
+		gl.glTranslated(-Room.size/2+3, 6, -2);
+		
 		gl.glRotated(r, 0, 1, 0);
 		gl.glRotated(45, 1, 0, 0);
 		gl.glRotated(-45, 0, 1, 0);
