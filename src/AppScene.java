@@ -209,11 +209,11 @@ public class AppScene {
 		gl.glPopMatrix();
 		
 		//draw robot2
-		gl.glPushMatrix();
-		transformForRobot2(gl);
-		robot2.display(gl, glut);
-		doEyeLight(robot2, leftEyeSpotlightForR2, rightEyeSpotlightForR2, gl);
-		gl.glPopMatrix();
+//		gl.glPushMatrix();
+//		transformForRobot2(gl);
+//		robot2.display(gl, glut);
+//		doEyeLight(robot2, leftEyeSpotlightForR2, rightEyeSpotlightForR2, gl);
+//		gl.glPopMatrix();
 		
 	}
 	
