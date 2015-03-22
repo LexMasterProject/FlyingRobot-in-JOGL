@@ -222,6 +222,7 @@ public void display(GL2 gl,GLUT glut)
 
 	private void setHandMaterialProperty(GL2 gl)
 	{
+		
 		float[] matAmbient = {0.27f, 0.188f, 0.215f, 1.0f};
 		float[] matDiffuse = {0.898f, 0.723f, 0.797f, 1.0f};
 		float[] matSpecular = {0.6f, 0.6f, 0.6f, 1.0f};
@@ -233,6 +234,7 @@ public void display(GL2 gl,GLUT glut)
 		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, 0);
 		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
 		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, 0);
+		
 	}
 
 	private void setHeadMaterialProperty(GL2 gl)
